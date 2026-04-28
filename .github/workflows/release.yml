@@ -10,19 +10,21 @@ permissions:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    container:
+      image: rockylinux:9
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+      - name: Install Python
+        run: |
+          dnf install -y python3.12 python3.12-pip python3.12-devel binutils
 
       - name: Build binary
         run: |
-          pip install -e . pyinstaller
-          pyinstaller \
+          python3.12 -m pip install -e . pyinstaller
+          python3.12 -m PyInstaller \
             --onefile \
             --name vdocker-linux-amd64 \
             --hidden-import vdocker.formatters.ps \
