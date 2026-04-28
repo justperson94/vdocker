@@ -1,14 +1,14 @@
 # vdocker
 
-Docker 오브젝트(컨테이너, 이미지, 볼륨, 네트워크) 간의 관계를 그룹화/트리 형태로 시각화하는 CLI 도구.
+A CLI tool that visualizes Docker objects (containers, images, volumes, networks) and their relationships in grouped/tree format.
 
-`docker ps`에서 같은 서비스의 컨테이너가 뒤섞여 보이는 문제를 해결합니다.
+Solves the problem of containers from different services being mixed together in `docker ps` output.
 
-## 설치
+## Installation
 
-### 바이너리 (Python 불필요)
+### Binary (no Python required)
 
-[Releases](https://github.com/justperson94/vdocker/releases) 에서 바이너리를 다운로드:
+Download from [Releases](https://github.com/justperson94/vdocker/releases):
 
 ```bash
 # Linux
@@ -23,7 +23,7 @@ sudo mv vdocker /usr/local/bin/
 pip install git+https://github.com/justperson94/vdocker.git
 ```
 
-### 소스에서 설치
+### From source
 
 ```bash
 git clone https://github.com/justperson94/vdocker.git
@@ -31,9 +31,9 @@ cd vdocker
 pip install -e .
 ```
 
-## 사용법
+## Usage
 
-### `vdocker ps` — 컨테이너를 compose 프로젝트별로 그룹화
+### `vdocker ps` — Group containers by compose project
 
 ```
 $ vdocker ps -a
@@ -54,7 +54,7 @@ $ vdocker ps -a
   u1v2w3x4…    redis-test    redis:7       "redis-server"     1d ago    Up 1d
 ```
 
-### `vdocker images` — 이미지별 종속 컨테이너
+### `vdocker images` — Show images with dependent containers
 
 ```
 $ vdocker images
@@ -72,9 +72,9 @@ redis:7 (30MB)
 └── redis-test  Up 1d
 ```
 
-미사용 이미지까지 보려면 `--unused` 플래그를 사용합니다.
+Use `--unused` flag to include images with no containers.
 
-### `vdocker volumes` — 볼륨별 마운트된 컨테이너
+### `vdocker volumes` — Show volumes with mounted containers
 
 ```
 $ vdocker volumes
@@ -89,7 +89,7 @@ unused-volume (0B)
 └── (no containers)
 ```
 
-### `vdocker networks` — 네트워크별 연결된 컨테이너
+### `vdocker networks` — Show networks with connected containers
 
 ```
 $ vdocker networks
@@ -107,7 +107,7 @@ bridge (bridge)
 └── redis-test  172.17.0.2
 ```
 
-### `vdocker tree` — 전체 관계 트리
+### `vdocker tree` — Full relationship tree
 
 ```
 $ vdocker tree
@@ -145,23 +145,23 @@ Docker Environment
         └── unused-volume (0B)
 ```
 
-## 공통 옵션
+## Options
 
-| 옵션 | 설명 |
-|------|------|
-| `-a, --all` | 중지된 컨테이너 포함 |
-| `--json` | JSON 형식으로 출력 |
-| `--unused` | 미사용 이미지 표시 (`images` 전용) |
+| Option | Description |
+|--------|-------------|
+| `-a, --all` | Include stopped containers |
+| `--json` | Output as JSON |
+| `--unused` | Show unused images (`images` only) |
 
-## 요구사항
+## Requirements
 
-- Docker 실행 중
-- pip 설치 시: Python 3.10+
+- Docker running
+- Python 3.10+ (for pip install)
 
-## 라이선스
+## License
 
 MIT
 
-## 작성자
+## Author
 
 Hyunwoo Song <justperson94@gmail.com>
