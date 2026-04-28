@@ -10,17 +10,19 @@ permissions:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
-    container:
-      image: quay.io/pypa/manylinux_2_28_x86_64
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Build binary
         run: |
-          python3.12 -m pip install -e . pyinstaller
-          python3.12 -m PyInstaller \
+          pip install -e . pyinstaller
+          pyinstaller \
             --onefile \
             --name vdocker-linux-amd64 \
             --hidden-import vdocker.formatters.ps \
