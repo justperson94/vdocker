@@ -107,3 +107,7 @@ def tree(show_all: bool, json_output: bool):
 
     from .formatters.tree import TreeFormatter
     TreeFormatter(console, json_output).render(data)
+
+
+if __name__ == "__main__":
+    cli()
