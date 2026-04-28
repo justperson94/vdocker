@@ -9,35 +9,20 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            asset_name: vdocker-linux-amd64
-          - os: macos-latest
-            asset_name: vdocker-darwin-amd64
-    runs-on: ${{ matrix.os }}
+  build-linux:
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/pypa/manylinux_2_28_x86_64
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: |
-          pip install -e .
-          pip install pyinstaller
-
       - name: Build binary
-        env:
-          ASSET_NAME: ${{ matrix.asset_name }}
         run: |
-          pyinstaller \
+          python3.12 -m pip install -e . pyinstaller
+          python3.12 -m PyInstaller \
             --onefile \
-            --name "$ASSET_NAME" \
+            --name vdocker-linux-amd64 \
             --hidden-import vdocker.formatters.ps \
             --hidden-import vdocker.formatters.images \
             --hidden-import vdocker.formatters.volumes \
@@ -48,11 +33,40 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.asset_name }}
-          path: dist/${{ matrix.asset_name }}
+          name: vdocker-linux-amd64
+          path: dist/vdocker-linux-amd64
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build binary
+        run: |
+          pip install -e . pyinstaller
+          pyinstaller \
+            --onefile \
+            --name vdocker-darwin-amd64 \
+            --hidden-import vdocker.formatters.ps \
+            --hidden-import vdocker.formatters.images \
+            --hidden-import vdocker.formatters.volumes \
+            --hidden-import vdocker.formatters.networks \
+            --hidden-import vdocker.formatters.tree \
+            src/vdocker/cli.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vdocker-darwin-amd64
+          path: dist/vdocker-darwin-amd64
 
   release:
-    needs: build
+    needs: [build-linux, build-macos]
     runs-on: ubuntu-latest
 
     steps:
