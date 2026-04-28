@@ -6,11 +6,29 @@ Docker 오브젝트(컨테이너, 이미지, 볼륨, 네트워크) 간의 관계
 
 ## 설치
 
-```bash
-pip install -e .
+### 바이너리 (Python 불필요)
 
-# 또는 uv 사용 시
-uv venv && VIRTUAL_ENV=.venv uv pip install -e .
+[Releases](https://github.com/justperson94/vdocker/releases) 에서 바이너리를 다운로드:
+
+```bash
+# Linux
+curl -L -o vdocker https://github.com/justperson94/vdocker/releases/latest/download/vdocker-linux-amd64
+chmod +x vdocker
+sudo mv vdocker /usr/local/bin/
+```
+
+### pip
+
+```bash
+pip install git+https://github.com/justperson94/vdocker.git
+```
+
+### 소스에서 설치
+
+```bash
+git clone https://github.com/justperson94/vdocker.git
+cd vdocker
+pip install -e .
 ```
 
 ## 사용법
@@ -137,8 +155,8 @@ Docker Environment
 
 ## 요구사항
 
-- Python 3.10+
 - Docker 실행 중
+- pip 설치 시: Python 3.10+
 
 ## 라이선스
 
