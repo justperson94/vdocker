@@ -12,19 +12,19 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     container:
-      image: rockylinux:9
+      image: rockylinux:8
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install Python
         run: |
-          dnf install -y python3.12 python3.12-pip python3.12-devel binutils
+          dnf install -y python3.11 python3.11-pip python3.11-devel binutils
 
       - name: Build binary
         run: |
-          python3.12 -m pip install -e . pyinstaller
-          python3.12 -m PyInstaller \
+          python3.11 -m pip install -e . pyinstaller
+          python3.11 -m PyInstaller \
             --onefile \
             --name vdocker-linux-amd64 \
             --hidden-import vdocker.formatters.ps \
