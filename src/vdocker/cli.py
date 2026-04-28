@@ -6,6 +6,7 @@ import click
 from rich.console import Console
 
 console = Console()
+err_console = Console(stderr=True)
 
 
 def common_options(f):
@@ -16,10 +17,10 @@ def common_options(f):
 
 def get_collector(show_all: bool):
     try:
-        from .docker_client import DockerCollector
+        from vdocker.docker_client import DockerCollector
         return DockerCollector(show_all=show_all)
     except Exception as e:
-        console.print(f"[red]Error:[/red] Cannot connect to Docker. Is Docker running?\n{e}", stderr=True)
+        err_console.print(f"[red]Error:[/red] Cannot connect to Docker. Is Docker running?\n{e}")
         sys.exit(1)
 
 
@@ -40,7 +41,7 @@ def ps(show_all: bool, json_output: bool):
         console.print("[dim]No containers found.[/dim]")
         return
 
-    from .formatters.ps import PsFormatter
+    from vdocker.formatters.ps import PsFormatter
     PsFormatter(console, json_output).render(data)
 
 
@@ -57,7 +58,7 @@ def images(show_all: bool, json_output: bool, unused: bool):
         console.print("[dim]No images found.[/dim]")
         return
 
-    from .formatters.images import ImagesFormatter
+    from vdocker.formatters.images import ImagesFormatter
     ImagesFormatter(console, json_output, show_unused=unused).render((all_images, containers_by_image))
 
 
@@ -73,7 +74,7 @@ def volumes(show_all: bool, json_output: bool):
         console.print("[dim]No volumes found.[/dim]")
         return
 
-    from .formatters.volumes import VolumesFormatter
+    from vdocker.formatters.volumes import VolumesFormatter
     VolumesFormatter(console, json_output).render((all_volumes, containers_by_volume))
 
 
@@ -89,7 +90,7 @@ def networks(show_all: bool, json_output: bool):
         console.print("[dim]No networks found.[/dim]")
         return
 
-    from .formatters.networks import NetworksFormatter
+    from vdocker.formatters.networks import NetworksFormatter
     NetworksFormatter(console, json_output).render((all_networks, containers_by_network))
 
 
@@ -105,7 +106,7 @@ def tree(show_all: bool, json_output: bool):
         "networks": collector.get_networks(),
     }
 
-    from .formatters.tree import TreeFormatter
+    from vdocker.formatters.tree import TreeFormatter
     TreeFormatter(console, json_output).render(data)
 
 
