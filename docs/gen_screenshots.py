@@ -16,6 +16,45 @@ from vdocker.models import (
     VolumeInfo,
 )
 
+# Custom SVG template — no external @font-face, uses universally available monospace fonts
+CUSTOM_SVG_FORMAT = """\
+<svg class="rich-terminal" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">
+    <!-- Generated with Rich https://www.textualize.io -->
+    <style>
+
+    .{unique_id}-matrix {{
+        font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "Courier New", monospace;
+        font-size: {char_height}px;
+        line-height: {line_height}px;
+        font-variant-east-asian: full-width;
+    }}
+
+    .{unique_id}-title {{
+        font-size: 18px;
+        font-weight: bold;
+        font-family: arial;
+    }}
+
+    {styles}
+    </style>
+
+    <defs>
+    <clipPath id="{unique_id}-clip-terminal">
+      <rect x="0" y="0" width="{terminal_width}" height="{terminal_height}" />
+    </clipPath>
+    {lines}
+    </defs>
+
+    {chrome}
+    <g transform="translate({terminal_x}, {terminal_y})" clip-path="url(#{unique_id}-clip-terminal)">
+    {backgrounds}
+    <g class="{unique_id}-matrix">
+    {matrix}
+    </g>
+    </g>
+</svg>
+"""
+
 # ──────────────────────────────────────────────
 #  Mock data — edit this section freely
 # ──────────────────────────────────────────────
@@ -164,7 +203,11 @@ NETWORKS = [
 def capture(name: str, render_fn, width: int = 110, title: str = ""):
     console = Console(record=True, width=width, force_terminal=True)
     render_fn(console)
-    svg = console.export_svg(title=title)
+    svg = console.export_svg(
+        title=title,
+        code_format=CUSTOM_SVG_FORMAT,
+        font_aspect_ratio=0.65,
+    )
     path = f"docs/{name}.svg"
     with open(path, "w") as f:
         f.write(svg)
