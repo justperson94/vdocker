@@ -78,6 +78,7 @@ class DockerCollector:
             ports=ports,
             project=c.labels.get("com.docker.compose.project"),
             service=c.labels.get("com.docker.compose.service"),
+            working_dir=c.labels.get("com.docker.compose.project.working_dir"),
             started_at=c.attrs.get("State", {}).get("StartedAt"),
             mounts=mounts,
             networks=networks,

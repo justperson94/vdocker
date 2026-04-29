@@ -42,7 +42,18 @@ class TreeFormatter(BaseFormatter):
         for project in sorted_projects:
             services = projects[project]
             proj_label = project or "standalone"
-            proj_node = root.add(Text(f"[{proj_label}]", style="bold cyan"))
+            # Get working_dir from any container in this project
+            all_containers_in_proj = [
+                c for svc in services.values() for c in svc
+            ]
+            working_dir = next(
+                (c.working_dir for c in all_containers_in_proj if c.working_dir),
+                None,
+            )
+            proj_header = Text(f"[{proj_label}]", style="bold cyan")
+            if working_dir:
+                proj_header.append(f"  {working_dir}", style="dim")
+            proj_node = root.add(proj_header)
 
             sorted_services = sorted(
                 services.keys(), key=lambda k: (k is None, k or "")

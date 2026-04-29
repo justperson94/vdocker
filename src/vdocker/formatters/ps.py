@@ -15,7 +15,14 @@ class PsFormatter(BaseFormatter):
         for i, project in enumerate(projects):
             containers = data[project]
             label = project or "standalone"
-            self.console.print(Text(f"[{label}]", style="bold cyan"))
+            header = Text(f"[{label}]", style="bold cyan")
+            # Show working_dir from any container in this project
+            working_dir = next(
+                (c.working_dir for c in containers if c.working_dir), None
+            )
+            if working_dir:
+                header.append(f"  {working_dir}", style="dim")
+            self.console.print(header)
 
             table = Table(
                 show_header=True, box=None, padding=(0, 2), pad_edge=False,

@@ -29,6 +29,7 @@ class ContainerInfo:
     ports: str  # formatted port mappings
     project: str | None  # com.docker.compose.project
     service: str | None  # com.docker.compose.service
+    working_dir: str | None  # com.docker.compose.project.working_dir
     started_at: str | None
     mounts: list[MountInfo] = field(default_factory=list)
     networks: list[NetworkAttachment] = field(default_factory=list)
