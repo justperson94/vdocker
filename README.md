@@ -1,5 +1,11 @@
 # vdocker
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://github.com/justperson94/vdocker/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/justperson94/vdocker?style=for-the-badge&color=2496ED)](https://github.com/justperson94/vdocker/releases)
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-lightgrey?style=for-the-badge)](https://github.com/justperson94/vdocker/releases)
+
 A CLI tool that visualizes Docker objects (containers, images, volumes, networks) and their relationships in grouped/tree format.
 
 Solves the problem of containers from different services being mixed together in `docker ps` output.
