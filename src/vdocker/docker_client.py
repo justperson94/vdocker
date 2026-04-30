@@ -29,6 +29,8 @@ class DockerCollector:
                 for b in bindings:
                     host_ip = b.get("HostIp", "0.0.0.0")
                     host_port = b.get("HostPort", "")
+                    if host_ip == "::" or host_ip == "::1":
+                        continue  # skip IPv6 duplicates
                     if host_ip == "0.0.0.0":
                         parts.append(f"{host_port}->{container_port}")
                     else:
@@ -171,6 +173,40 @@ class DockerCollector:
                 if m.type == "volume" and m.name:
                     groups.setdefault(m.name, []).append((c, m.destination))
         return groups
+
+    def port_mappings(self) -> list[dict]:
+        """Return all host-exposed port mappings sorted by host port."""
+        seen: set[tuple] = set()
+        rows = []
+        for c in self.get_containers():
+            raw = self._client.containers.get(c.id)
+            raw_ports = raw.attrs.get("NetworkSettings", {}).get("Ports", {}) or {}
+            net_names = [n.network_name for n in c.networks]
+            primary_net = net_names[0] if net_names else ""
+
+            for container_port_proto, bindings in raw_ports.items():
+                if not bindings:
+                    continue
+                port_str, proto = container_port_proto.rsplit("/", 1)
+                for b in bindings:
+                    host_port = b.get("HostPort", "")
+                    if not host_port:
+                        continue
+                    key = (int(host_port), int(port_str), proto, c.name)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    rows.append({
+                        "host_port": int(host_port),
+                        "container_port": int(port_str),
+                        "protocol": proto,
+                        "container_name": c.name,
+                        "project": c.project,
+                        "image": c.image_name,
+                        "network": primary_net,
+                    })
+        rows.sort(key=lambda r: r["host_port"])
+        return rows
 
     def containers_by_network(self) -> dict[str, list[tuple[ContainerInfo, str]]]:
         all_containers = self.get_all_containers()
