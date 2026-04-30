@@ -96,6 +96,17 @@ def networks(show_all: bool, json_output: bool):
 
 @cli.command()
 @common_options
+def ports(show_all: bool, json_output: bool):
+    """Show all exposed port mappings."""
+    collector = get_collector(show_all)
+    data = collector.port_mappings()
+
+    from vdocker.formatters.ports import PortsFormatter
+    PortsFormatter(console, json_output).render(data)
+
+
+@cli.command()
+@common_options
 def tree(show_all: bool, json_output: bool):
     """Show full relationship tree."""
     collector = get_collector(show_all)
