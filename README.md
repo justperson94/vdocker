@@ -69,6 +69,10 @@ Use `--unused` flag to include images with no containers.
 | `--json` | Output as JSON |
 | `--unused` | Show unused images (`images` only) |
 
+## Notes
+
+- The working directory path shown next to project names (e.g. `[myapp]  /home/user/projects/myapp`) is only available for containers started via `docker compose up`. Standalone containers (`docker run`) do not have this information.
+
 ## Requirements
 
 - Docker running
