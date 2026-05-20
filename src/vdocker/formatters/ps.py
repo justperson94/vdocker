@@ -37,9 +37,9 @@ class PsFormatter(BaseFormatter):
             table.add_column("PORTS", style="cyan", overflow="fold")
 
             for c in sorted(containers, key=lambda x: x.name):
-                cmd = c.command
+                cmd = c.command.replace("\n", " ").replace("\r", "").strip()
                 if len(cmd) > 18:
-                    cmd = cmd[:18] + "��"
+                    cmd = cmd[:18] + "\u2026"
 
                 table.add_row(
                     f"  {c.id[:12]}",
