@@ -86,3 +86,60 @@ jobs:
         with:
           generate_release_notes: true
           files: artifacts/*/vdocker-*
+
+  update-tap:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Compute checksums and update formula
+        env:
+          TAP_TOKEN: ${{ secrets.TAP_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          REPO="justperson94/vdocker"
+          BASE="https://github.com/${REPO}/releases/download/v${VERSION}"
+
+          # Download release binaries and compute SHA256
+          curl -sL -o vdocker-linux-amd64 "${BASE}/vdocker-linux-amd64"
+          curl -sL -o vdocker-darwin-amd64 "${BASE}/vdocker-darwin-amd64"
+          LINUX_SHA=$(sha256sum vdocker-linux-amd64 | cut -d' ' -f1)
+          DARWIN_SHA=$(sha256sum vdocker-darwin-amd64 | cut -d' ' -f1)
+
+          # Clone tap repo
+          git clone "https://x-access-token:${TAP_TOKEN}@github.com/justperson94/homebrew-tap.git" tap
+          cd tap
+
+          # Regenerate formula
+          cat > Formula/vdocker.rb <<EOF
+          class Vdocker < Formula
+            desc "Visualize Docker objects and their relationships in grouped/tree format"
+            homepage "https://github.com/justperson94/vdocker"
+            version "${VERSION}"
+            license "MIT"
+
+            on_macos do
+              url "${BASE}/vdocker-darwin-amd64"
+              sha256 "${DARWIN_SHA}"
+            end
+
+            on_linux do
+              url "${BASE}/vdocker-linux-amd64"
+              sha256 "${LINUX_SHA}"
+            end
+
+            def install
+              bin.install Dir["*"].first => "vdocker"
+            end
+
+            test do
+              assert_match "vdocker", shell_output("#{bin}/vdocker --version")
+            end
+          end
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/vdocker.rb
+          git commit -m "Update vdocker formula to v${VERSION}"
+          git push origin HEAD
