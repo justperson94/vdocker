@@ -12,6 +12,12 @@ Solves the problem of containers from different services being mixed together in
 
 ## Installation
 
+### Homebrew (macOS / Linux)
+
+```bash
+brew install justperson94/tap/vdocker
+```
+
 ### Binary (no Python required)
 
 Download from [Releases](https://github.com/justperson94/vdocker/releases):
