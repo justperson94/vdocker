@@ -23,6 +23,7 @@ jobs:
 
       - name: Build binary
         run: |
+          sed -i "s/^version = .*/version = \"${GITHUB_REF_NAME#v}\"/" pyproject.toml
           python3.11 -m pip install -e . pyinstaller
           python3.11 -m PyInstaller \
             --onefile \
@@ -54,6 +55,7 @@ jobs:
 
       - name: Build binary
         run: |
+          sed -i '' "s/^version = .*/version = \"${GITHUB_REF_NAME#v}\"/" pyproject.toml
           pip install -e . pyinstaller
           pyinstaller \
             --onefile \
