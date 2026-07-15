@@ -25,7 +25,7 @@ def get_collector(show_all: bool):
 
 
 @click.group()
-@click.version_option(package_name="vdocker")
+@click.version_option(package_name="vdocker", prog_name="vdocker")
 def cli():
     """vdocker — Visualize Docker objects and their relationships."""
 

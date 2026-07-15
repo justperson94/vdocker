@@ -12,6 +12,14 @@ Solves the problem of containers from different services being mixed together in
 
 ## Installation
 
+### Quick install (macOS / Linux)
+
+One command — detects your OS, downloads the latest binary, and puts `vdocker` on your PATH:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/justperson94/vdocker/main/install.sh | sh
+```
+
 ### Homebrew (macOS / Linux)
 
 ```bash

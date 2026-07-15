@@ -26,6 +26,7 @@ jobs:
           python3.11 -m pip install -e . pyinstaller
           python3.11 -m PyInstaller \
             --onefile \
+            --copy-metadata vdocker \
             --name vdocker-linux-amd64 \
             --hidden-import vdocker.formatters.ps \
             --hidden-import vdocker.formatters.images \
@@ -56,6 +57,7 @@ jobs:
           pip install -e . pyinstaller
           pyinstaller \
             --onefile \
+            --copy-metadata vdocker \
             --name vdocker-darwin-amd64 \
             --hidden-import vdocker.formatters.ps \
             --hidden-import vdocker.formatters.images \
