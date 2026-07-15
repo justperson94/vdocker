@@ -70,4 +70,27 @@ case ":${PATH}:" in
     *) printf '\033[1;33mNote:\033[0m %s is not on your PATH. Add this to your shell profile:\n  export PATH="%s:$PATH"\n' "$install_dir" "$install_dir" ;;
 esac
 
+# --- Shell completion (tab-complete container names for `vdocker exec`) ---
+setup_completion() {
+    cur_shell="$(basename "${SHELL:-}")"
+    case "$cur_shell" in
+        bash) rc="${HOME}/.bashrc"; line='eval "$(_VDOCKER_COMPLETE=bash_source vdocker)"' ;;
+        zsh)  rc="${HOME}/.zshrc";  line='eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' ;;
+        *)    return ;;  # unsupported shell — skip silently
+    esac
+
+    # Already configured?
+    if [ -e "$rc" ] && grep -qF "_VDOCKER_COMPLETE" "$rc" 2>/dev/null; then
+        return
+    fi
+
+    if [ -w "$rc" ] || { [ ! -e "$rc" ] && [ -w "$(dirname "$rc")" ]; }; then
+        printf '\n# vdocker shell completion\n%s\n' "$line" >> "$rc"
+        info "Shell completion added to ${rc} (restart your shell to enable)"
+    else
+        printf '\033[1;33mNote:\033[0m Could not write %s. Add this line manually for tab-completion:\n  %s\n' "$rc" "$line"
+    fi
+}
+setup_completion
+
 info "Done! Run '${BINARY} --help' to get started."

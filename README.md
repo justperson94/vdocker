@@ -75,6 +75,25 @@ Use `--unused` flag to include images with no containers.
 
 ![vdocker tree](docs/tree.svg)
 
+### `vdocker exec` — Open a shell inside a container
+
+Shortcut for `docker exec -it <container> <shell>`:
+
+```bash
+vdocker exec myapp-web-1        # bash, falls back to sh
+vdocker exec myapp-web-1 sh     # use a specific shell
+```
+
+Press `<Tab>` after `vdocker exec` to autocomplete running container names.
+Completion is set up automatically by the install script; otherwise enable it with:
+
+```bash
+# bash
+echo 'eval "$(_VDOCKER_COMPLETE=bash_source vdocker)"' >> ~/.bashrc
+# zsh
+echo 'eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' >> ~/.zshrc
+```
+
 ## Options
 
 | Option | Description |

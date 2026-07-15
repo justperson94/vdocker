@@ -121,5 +121,59 @@ def tree(show_all: bool, json_output: bool):
     TreeFormatter(console, json_output).render(data)
 
 
+def complete_container(ctx, param, incomplete):
+    """Shell completion: running container names starting with `incomplete`."""
+    try:
+        from vdocker.docker_client import DockerCollector
+        names = [c.name for c in DockerCollector().get_containers()]
+    except Exception:
+        return []
+    return [n for n in names if n.startswith(incomplete)]
+
+
+@cli.command(name="exec")
+@click.argument("container", shell_complete=complete_container)
+@click.argument("shell", required=False)
+def exec_(container: str, shell: str | None):
+    """Open an interactive shell inside a running container.
+
+    With no SHELL argument, tries bash and falls back to sh.
+    If a SHELL is given explicitly, it must exist in the container.
+    """
+    import shutil
+
+    if shutil.which("docker") is None:
+        err_console.print("[red]Error:[/red] 'docker' CLI not found in PATH.")
+        sys.exit(1)
+
+    def shell_exists(name: str) -> bool:
+        import subprocess
+        result = subprocess.run(
+            ["docker", "exec", container, "sh", "-c",
+             f"command -v {shlex_quote(name)}"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        return result.returncode == 0
+
+    if shell:
+        if not shell_exists(shell):
+            err_console.print(
+                f"[red]Error:[/red] '{shell}' not found in container "
+                f"'{container}'."
+            )
+            sys.exit(1)
+        chosen = shell
+    else:
+        chosen = "bash" if shell_exists("bash") else "sh"
+
+    import os
+    os.execvp("docker", ["docker", "exec", "-it", container, chosen])
+
+
+def shlex_quote(s: str) -> str:
+    import shlex
+    return shlex.quote(s)
+
+
 if __name__ == "__main__":
     cli()
