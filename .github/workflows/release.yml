@@ -23,7 +23,9 @@ jobs:
 
       - name: Build binary
         run: |
-          sed -i "s/^version = .*/version = \"${GITHUB_REF_NAME#v}\"/" pyproject.toml
+          VERSION="${GITHUB_REF_NAME#v}"
+          case "$VERSION" in *[!0-9.]*|"") echo "Invalid tag: $GITHUB_REF_NAME" >&2; exit 1;; esac
+          sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
           python3.11 -m pip install -e . pyinstaller
           python3.11 -m PyInstaller \
             --onefile \
@@ -55,7 +57,9 @@ jobs:
 
       - name: Build binary
         run: |
-          sed -i '' "s/^version = .*/version = \"${GITHUB_REF_NAME#v}\"/" pyproject.toml
+          VERSION="${GITHUB_REF_NAME#v}"
+          case "$VERSION" in *[!0-9.]*|"") echo "Invalid tag: $GITHUB_REF_NAME" >&2; exit 1;; esac
+          sed -i '' "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
           pip install -e . pyinstaller
           pyinstaller \
             --onefile \
@@ -101,6 +105,7 @@ jobs:
           TAP_TOKEN: ${{ secrets.TAP_TOKEN }}
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
+          case "$VERSION" in *[!0-9.]*|"") echo "Invalid tag: $GITHUB_REF_NAME" >&2; exit 1;; esac
           REPO="justperson94/vdocker"
           BASE="https://github.com/${REPO}/releases/download/v${VERSION}"
 
