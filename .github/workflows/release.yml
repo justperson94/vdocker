@@ -87,15 +87,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
+      # This repo commits straight to main, so GitHub's PR-based note
+      # generation comes up empty. Build the changelog from commit subjects.
+      - name: Build changelog
+        run: |
+          prev="$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)"
+          {
+            echo "## What's Changed"
+            echo
+            if [ -n "$prev" ]; then
+              git log "${prev}..${GITHUB_REF_NAME}" --no-merges --pretty=format:'- %s'
+              echo
+              echo
+              echo "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/compare/${prev}...${GITHUB_REF_NAME}"
+            else
+              git log "${GITHUB_REF_NAME}" --no-merges --pretty=format:'- %s'
+            fi
+          } > CHANGELOG_RELEASE.md
+          cat CHANGELOG_RELEASE.md
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          body_path: CHANGELOG_RELEASE.md
           files: artifacts/*/vdocker-*
 
   update-tap:
