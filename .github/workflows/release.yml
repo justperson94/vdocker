@@ -26,11 +26,12 @@ jobs:
           VERSION="${GITHUB_REF_NAME#v}"
           case "$VERSION" in *[!0-9.]*|"") echo "Invalid tag: $GITHUB_REF_NAME" >&2; exit 1;; esac
           sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
+          dnf install -y tar gzip
           python3.11 -m pip install -e . pyinstaller
           python3.11 -m PyInstaller \
-            --onefile \
+            --onedir \
             --copy-metadata vdocker \
-            --name vdocker-linux-amd64 \
+            --name vdocker \
             --hidden-import vdocker.formatters.ps \
             --hidden-import vdocker.formatters.images \
             --hidden-import vdocker.formatters.volumes \
@@ -38,12 +39,13 @@ jobs:
             --hidden-import vdocker.formatters.ports \
             --hidden-import vdocker.formatters.tree \
             src/vdocker/cli.py
+          tar czf vdocker-linux-amd64.tar.gz -C dist vdocker
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: vdocker-linux-amd64
-          path: dist/vdocker-linux-amd64
+          path: vdocker-linux-amd64.tar.gz
 
   build-macos:
     runs-on: macos-latest
@@ -62,9 +64,9 @@ jobs:
           sed -i '' "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
           pip install -e . pyinstaller
           pyinstaller \
-            --onefile \
+            --onedir \
             --copy-metadata vdocker \
-            --name vdocker-darwin-amd64 \
+            --name vdocker \
             --hidden-import vdocker.formatters.ps \
             --hidden-import vdocker.formatters.images \
             --hidden-import vdocker.formatters.volumes \
@@ -72,12 +74,13 @@ jobs:
             --hidden-import vdocker.formatters.ports \
             --hidden-import vdocker.formatters.tree \
             src/vdocker/cli.py
+          tar czf vdocker-darwin-amd64.tar.gz -C dist vdocker
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: vdocker-darwin-amd64
-          path: dist/vdocker-darwin-amd64
+          path: vdocker-darwin-amd64.tar.gz
 
   release:
     needs: [build-linux, build-macos]
@@ -109,11 +112,11 @@ jobs:
           REPO="justperson94/vdocker"
           BASE="https://github.com/${REPO}/releases/download/v${VERSION}"
 
-          # Download release binaries and compute SHA256
-          curl -sL -o vdocker-linux-amd64 "${BASE}/vdocker-linux-amd64"
-          curl -sL -o vdocker-darwin-amd64 "${BASE}/vdocker-darwin-amd64"
-          LINUX_SHA=$(sha256sum vdocker-linux-amd64 | cut -d' ' -f1)
-          DARWIN_SHA=$(sha256sum vdocker-darwin-amd64 | cut -d' ' -f1)
+          # Download release archives and compute SHA256
+          curl -sL -o vdocker-linux-amd64.tar.gz "${BASE}/vdocker-linux-amd64.tar.gz"
+          curl -sL -o vdocker-darwin-amd64.tar.gz "${BASE}/vdocker-darwin-amd64.tar.gz"
+          LINUX_SHA=$(sha256sum vdocker-linux-amd64.tar.gz | cut -d' ' -f1)
+          DARWIN_SHA=$(sha256sum vdocker-darwin-amd64.tar.gz | cut -d' ' -f1)
 
           # Clone tap repo
           git clone "https://x-access-token:${TAP_TOKEN}@github.com/justperson94/homebrew-tap.git" tap
@@ -128,17 +131,18 @@ jobs:
             license "MIT"
 
             on_macos do
-              url "${BASE}/vdocker-darwin-amd64"
+              url "${BASE}/vdocker-darwin-amd64.tar.gz"
               sha256 "${DARWIN_SHA}"
             end
 
             on_linux do
-              url "${BASE}/vdocker-linux-amd64"
+              url "${BASE}/vdocker-linux-amd64.tar.gz"
               sha256 "${LINUX_SHA}"
             end
 
             def install
-              bin.install Dir["*"].first => "vdocker"
+              libexec.install Dir["*"]
+              bin.install_symlink libexec/"vdocker"
             end
 
             test do

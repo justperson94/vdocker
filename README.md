@@ -28,13 +28,15 @@ brew install justperson94/tap/vdocker
 
 ### Binary (no Python required)
 
-Download from [Releases](https://github.com/justperson94/vdocker/releases):
+Download from [Releases](https://github.com/justperson94/vdocker/releases). The
+archive holds a `vdocker` directory — keep it intact and symlink the executable:
 
 ```bash
 # Linux
-curl -L -o vdocker https://github.com/justperson94/vdocker/releases/latest/download/vdocker-linux-amd64
-chmod +x vdocker
-sudo mv vdocker /usr/local/bin/
+curl -L -o vdocker.tar.gz https://github.com/justperson94/vdocker/releases/latest/download/vdocker-linux-amd64.tar.gz
+tar xzf vdocker.tar.gz
+sudo mv vdocker /usr/local/lib/vdocker
+sudo ln -sf /usr/local/lib/vdocker/vdocker /usr/local/bin/vdocker
 ```
 
 ### pip

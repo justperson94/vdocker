@@ -27,42 +27,56 @@ case "$arch" in
     *)             err "Unsupported architecture: $arch" ;;
 esac
 
-asset="${BINARY}-${os_name}-${arch_name}"
+asset="${BINARY}-${os_name}-${arch_name}.tar.gz"
 url="https://github.com/${REPO}/releases/latest/download/${asset}"
 
-# --- Choose install directory ---
-if [ -w "/usr/local/bin" ]; then
+# --- Choose install directories ---
+# The binary ships as a directory (PyInstaller onedir) for fast startup:
+# it goes under <prefix>/lib/vdocker and is symlinked into <prefix>/bin.
+if [ -w "/usr/local/bin" ] && [ -w "/usr/local/lib" ]; then
     install_dir="/usr/local/bin"
+    lib_dir="/usr/local/lib/${BINARY}"
     sudo_cmd=""
 elif [ -n "${HOME:-}" ]; then
     install_dir="${HOME}/.local/bin"
+    lib_dir="${HOME}/.local/lib/${BINARY}"
     sudo_cmd=""
-    mkdir -p "$install_dir"
+    mkdir -p "$install_dir" "${HOME}/.local/lib"
 else
     install_dir="/usr/local/bin"
+    lib_dir="/usr/local/lib/${BINARY}"
     sudo_cmd="sudo"
 fi
 
-# Fall back to sudo for /usr/local/bin if not writable and no HOME dir chosen
-if [ "$install_dir" = "/usr/local/bin" ] && [ ! -w "/usr/local/bin" ]; then
+if [ "$install_dir" = "/usr/local/bin" ] && { [ ! -w "/usr/local/bin" ] || [ ! -w "/usr/local/lib" ]; }; then
     sudo_cmd="sudo"
 fi
+
+command -v tar >/dev/null 2>&1 || err "'tar' is required but not found"
 
 # --- Download ---
 info "Downloading ${asset} ..."
-tmp="$(mktemp)"
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+tarball="${tmp_dir}/${asset}"
 if command -v curl >/dev/null 2>&1; then
-    curl -fsSL -o "$tmp" "$url" || err "Download failed: $url"
+    curl -fsSL -o "$tarball" "$url" || err "Download failed: $url"
 elif command -v wget >/dev/null 2>&1; then
-    wget -qO "$tmp" "$url" || err "Download failed: $url"
+    wget -qO "$tarball" "$url" || err "Download failed: $url"
 else
     err "Neither curl nor wget is available"
 fi
 
 # --- Install ---
-chmod +x "$tmp"
-info "Installing to ${install_dir}/${BINARY}"
-$sudo_cmd mv "$tmp" "${install_dir}/${BINARY}"
+tar xzf "$tarball" -C "$tmp_dir" || err "Failed to extract $asset"
+[ -x "${tmp_dir}/${BINARY}/${BINARY}" ] || err "Unexpected archive layout"
+
+info "Installing to ${lib_dir}"
+$sudo_cmd rm -rf "$lib_dir"
+$sudo_cmd mkdir -p "$(dirname "$lib_dir")"
+$sudo_cmd mv "${tmp_dir}/${BINARY}" "$lib_dir"
+$sudo_cmd ln -sf "${lib_dir}/${BINARY}" "${install_dir}/${BINARY}"
+info "Linked ${install_dir}/${BINARY}"
 
 # --- PATH check ---
 case ":${PATH}:" in
