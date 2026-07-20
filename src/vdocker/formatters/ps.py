@@ -12,6 +12,13 @@ class PsFormatter(BaseFormatter):
     def render_rich(self, data: dict[str | None, list[ContainerInfo]]) -> None:
         projects = sorted(data.keys(), key=lambda k: (k is None, k or ""))
 
+        # Narrow terminals: shed low-priority columns instead of truncating
+        # every cell into unreadable fragments.
+        width = self.console.width
+        show_command = width >= 130
+        show_created = width >= 110
+        show_image = width >= 95
+
         for i, project in enumerate(projects):
             containers = data[project]
             label = project or "standalone"
@@ -30,26 +37,32 @@ class PsFormatter(BaseFormatter):
             )
             table.add_column("  ID", no_wrap=True, style="dim", max_width=14)
             table.add_column("NAME", no_wrap=True)
-            table.add_column("IMAGE", no_wrap=True)
-            table.add_column("COMMAND", no_wrap=True, max_width=20, style="dim")
-            table.add_column("CREATED", no_wrap=True, style="dim")
+            if show_image:
+                table.add_column("IMAGE", no_wrap=True)
+            if show_command:
+                table.add_column("COMMAND", no_wrap=True, max_width=20, style="dim")
+            if show_created:
+                table.add_column("CREATED", no_wrap=True, style="dim")
             table.add_column("STATUS", no_wrap=True)
             table.add_column("PORTS", style="cyan", overflow="fold")
 
             for c in sorted(containers, key=lambda x: x.name):
-                cmd = c.command.replace("\n", " ").replace("\r", "").strip()
-                if len(cmd) > 18:
-                    cmd = cmd[:18] + "\u2026"
-
-                table.add_row(
+                cells: list = [
                     f"  {c.id[:12]}",
                     Text(c.name, style=status_style(c.status)),
-                    c.image_name,
-                    f'"{cmd}"',
-                    format_created(c.created),
-                    status_text(c.status, c.started_at),
-                    c.ports or "",
-                )
+                ]
+                if show_image:
+                    cells.append(c.image_name)
+                if show_command:
+                    cmd = c.command.replace("\n", " ").replace("\r", "").strip()
+                    if len(cmd) > 18:
+                        cmd = cmd[:18] + "\u2026"
+                    cells.append(f'"{cmd}"')
+                if show_created:
+                    cells.append(format_created(c.created))
+                cells.append(status_text(c.status, c.started_at))
+                cells.append(c.ports or "")
+                table.add_row(*cells)
 
             self.console.print(table)
             if i < len(projects) - 1:
