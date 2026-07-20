@@ -176,17 +176,35 @@ def exec_(container: str, shell: str | None):
     With no SHELL argument, tries bash and falls back to sh.
     If a SHELL is given explicitly, it must exist in the container.
     """
+    import shlex
     import shutil
+    import subprocess
 
     if shutil.which("docker") is None:
         err_console.print("[red]Error:[/red] 'docker' CLI not found in PATH.")
         sys.exit(1)
 
+    # A stopped container makes every shell probe fail with a misleading
+    # "shell not found" — check the container state first.
+    state = subprocess.run(
+        ["docker", "inspect", "-f", "{{.State.Status}}", container],
+        capture_output=True, text=True,
+    )
+    if state.returncode != 0:
+        err_console.print(f"[red]Error:[/red] No such container: '{container}'")
+        sys.exit(1)
+    status = state.stdout.strip()
+    if status != "running":
+        err_console.print(
+            f"[red]Error:[/red] Container '{container}' is not running "
+            f"(status: {status}). Start it first: docker start {container}"
+        )
+        sys.exit(1)
+
     def shell_exists(name: str) -> bool:
-        import subprocess
         result = subprocess.run(
             ["docker", "exec", container, "sh", "-c",
-             f"command -v {shlex_quote(name)}"],
+             f"command -v {shlex.quote(name)}"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
         return result.returncode == 0
@@ -204,11 +222,6 @@ def exec_(container: str, shell: str | None):
 
     import os
     os.execvp("docker", ["docker", "exec", "-it", container, chosen])
-
-
-def shlex_quote(s: str) -> str:
-    import shlex
-    return shlex.quote(s)
 
 
 if __name__ == "__main__":
