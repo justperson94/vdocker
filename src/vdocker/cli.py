@@ -15,6 +15,9 @@ def common_options(f):
     return f
 
 
+json_option = click.option("--json", "json_output", is_flag=True, help="Output as JSON")
+
+
 def get_collector(show_all: bool):
     try:
         from vdocker.docker_client import DockerCollector
@@ -46,11 +49,11 @@ def ps(show_all: bool, json_output: bool):
 
 
 @cli.command()
-@common_options
+@json_option
 @click.option("--unused", is_flag=True, help="Show images without containers too")
-def images(show_all: bool, json_output: bool, unused: bool):
+def images(json_output: bool, unused: bool):
     """Show images with dependent containers."""
-    collector = get_collector(show_all)
+    collector = get_collector(False)
     all_images = collector.get_images()
     containers_by_image = collector.containers_by_image()
 
@@ -63,10 +66,10 @@ def images(show_all: bool, json_output: bool, unused: bool):
 
 
 @cli.command()
-@common_options
-def volumes(show_all: bool, json_output: bool):
+@json_option
+def volumes(json_output: bool):
     """Show volumes with mounted containers."""
-    collector = get_collector(show_all)
+    collector = get_collector(False)
     all_volumes = collector.get_volumes()
     containers_by_volume = collector.containers_by_volume()
 
@@ -79,10 +82,10 @@ def volumes(show_all: bool, json_output: bool):
 
 
 @cli.command()
-@common_options
-def networks(show_all: bool, json_output: bool):
+@json_option
+def networks(json_output: bool):
     """Show networks with connected containers."""
-    collector = get_collector(show_all)
+    collector = get_collector(False)
     all_networks = collector.get_networks()
     containers_by_network = collector.containers_by_network()
 
@@ -95,10 +98,10 @@ def networks(show_all: bool, json_output: bool):
 
 
 @cli.command()
-@common_options
-def ports(show_all: bool, json_output: bool):
+@json_option
+def ports(json_output: bool):
     """Show all exposed port mappings."""
-    collector = get_collector(show_all)
+    collector = get_collector(False)
     data = collector.port_mappings()
 
     from vdocker.formatters.ports import PortsFormatter
