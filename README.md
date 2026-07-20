@@ -28,7 +28,8 @@ brew install justperson94/tap/vdocker
 
 ### Binary (no Python required)
 
-Download from [Releases](https://github.com/justperson94/vdocker/releases). The
+Download from [Releases](https://github.com/justperson94/vdocker/releases)
+(Linux x86_64 and Apple Silicon; Intel Macs: use pip). The
 archive holds a `vdocker` directory — keep it intact and symlink the executable:
 
 ```bash

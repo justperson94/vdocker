@@ -76,13 +76,13 @@ jobs:
             --hidden-import vdocker.formatters.info \
             --hidden-import vdocker.formatters.tree \
             src/vdocker/cli.py
-          tar czf vdocker-darwin-amd64.tar.gz -C dist vdocker
+          tar czf vdocker-darwin-arm64.tar.gz -C dist vdocker
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vdocker-darwin-amd64
-          path: vdocker-darwin-amd64.tar.gz
+          name: vdocker-darwin-arm64
+          path: vdocker-darwin-arm64.tar.gz
 
   release:
     needs: [build-linux, build-macos]
@@ -139,9 +139,9 @@ jobs:
 
           # Download release archives and compute SHA256
           curl -sL -o vdocker-linux-amd64.tar.gz "${BASE}/vdocker-linux-amd64.tar.gz"
-          curl -sL -o vdocker-darwin-amd64.tar.gz "${BASE}/vdocker-darwin-amd64.tar.gz"
+          curl -sL -o vdocker-darwin-arm64.tar.gz "${BASE}/vdocker-darwin-arm64.tar.gz"
           LINUX_SHA=$(sha256sum vdocker-linux-amd64.tar.gz | cut -d' ' -f1)
-          DARWIN_SHA=$(sha256sum vdocker-darwin-amd64.tar.gz | cut -d' ' -f1)
+          DARWIN_SHA=$(sha256sum vdocker-darwin-arm64.tar.gz | cut -d' ' -f1)
 
           # Clone tap repo
           git clone "https://x-access-token:${TAP_TOKEN}@github.com/justperson94/homebrew-tap.git" tap
@@ -156,8 +156,10 @@ jobs:
             license "MIT"
 
             on_macos do
-              url "${BASE}/vdocker-darwin-amd64.tar.gz"
-              sha256 "${DARWIN_SHA}"
+              on_arm do
+                url "${BASE}/vdocker-darwin-arm64.tar.gz"
+                sha256 "${DARWIN_SHA}"
+              end
             end
 
             on_linux do

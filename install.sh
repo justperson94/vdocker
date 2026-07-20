@@ -21,10 +21,13 @@ esac
 
 # --- Detect architecture ---
 arch="$(uname -m)"
-case "$arch" in
-    x86_64|amd64)  arch_name="amd64" ;;
-    arm64|aarch64) arch_name="amd64" ;;  # macOS arm64 runs amd64 build via Rosetta
-    *)             err "Unsupported architecture: $arch" ;;
+PIP_HINT="install with: pip install git+https://github.com/${REPO}.git"
+case "${os_name}-${arch}" in
+    linux-x86_64|linux-amd64) arch_name="amd64" ;;
+    darwin-arm64)             arch_name="arm64" ;;
+    darwin-x86_64) err "No prebuilt binary for Intel macOS — $PIP_HINT" ;;
+    linux-aarch64|linux-arm64) err "No prebuilt binary for Linux arm64 — $PIP_HINT" ;;
+    *)             err "Unsupported architecture: $arch — $PIP_HINT" ;;
 esac
 
 asset="${BINARY}-${os_name}-${arch_name}.tar.gz"
