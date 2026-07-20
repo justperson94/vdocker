@@ -27,7 +27,7 @@ def format_created(created: str) -> str:
     try:
         dt = datetime.fromisoformat(created.replace("Z", "+00:00"))
         delta = datetime.now(timezone.utc) - dt
-        total_seconds = int(delta.total_seconds())
+        total_seconds = max(0, int(delta.total_seconds()))
         if total_seconds < 60:
             return f"{total_seconds}s ago"
         elif total_seconds < 3600:

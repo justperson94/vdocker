@@ -65,12 +65,13 @@ class InfoFormatter(BaseFormatter):
             style = "red" if health and health["status"] == "unhealthy" else "green"
             header.append(label, style=style)
         else:
+            stopped = d["status"] in ("exited", "dead", "restarting")
             label = d["status"].capitalize()
-            if d["exit_code"] is not None and d["status"] != "created":
+            if stopped and d["exit_code"] is not None:
                 label += f" ({d['exit_code']})"
-            ago = format_created(d["finished_at"] or "")
-            if ago:
-                label += f"  {ago}"
+                ago = format_created(d["finished_at"] or "")
+                if ago:
+                    label += f"  {ago}"
             header.append(label, style=status_style(d["status"]))
         con.print(header)
         con.print()
@@ -98,9 +99,11 @@ class InfoFormatter(BaseFormatter):
         # --- State ---
         self._section("State")
         rows = []
-        if running:
+        if running or d["status"] == "paused":
+            # paused containers are alive — they never exited
             rows.append(("Started", format_created(d["started_at"] or "")))
-        elif d["status"] != "created" and d["exit_code"] is not None:
+        elif d["status"] in ("exited", "dead", "restarting") \
+                and d["exit_code"] is not None:
             code = Text(str(d["exit_code"]), style="red bold")
             hint = describe_exit_code(d["exit_code"], d["oom_killed"])
             if hint:

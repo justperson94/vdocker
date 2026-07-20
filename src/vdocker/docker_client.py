@@ -51,6 +51,8 @@ class DockerCollector:
             if not raw:
                 continue
             port_str, _, proto = container_port_proto.rpartition("/")
+            if not port_str.isdigit():
+                continue
             for b in raw:
                 host_ip = b.get("HostIp", "0.0.0.0") or "0.0.0.0"
                 host_port = b.get("HostPort", "")
@@ -187,7 +189,7 @@ class DockerCollector:
 
         status = state.get("Status", "")
         last_logs = None
-        if status != "running":
+        if status in ("exited", "dead", "restarting"):
             try:
                 last_logs = c.logs(tail=10).decode("utf-8", errors="replace").rstrip()
             except Exception:
