@@ -1,12 +1,18 @@
 """Generate SVG screenshots for README using mock data."""
 
+from datetime import datetime, timedelta, timezone
+
 from rich.console import Console
 
 from vdocker.formatters.images import ImagesFormatter
+from vdocker.formatters.info import InfoFormatter
 from vdocker.formatters.networks import NetworksFormatter
+from vdocker.formatters.ports import PortsFormatter
 from vdocker.formatters.ps import PsFormatter
 from vdocker.formatters.tree import TreeFormatter
 from vdocker.formatters.volumes import VolumesFormatter
+
+
 from vdocker.models import (
     ContainerInfo,
     ImageInfo,
@@ -15,6 +21,11 @@ from vdocker.models import (
     NetworkInfo,
     VolumeInfo,
 )
+
+
+def ago(days: int = 0, hours: int = 0) -> str:
+    """Timestamp relative to now, so screenshots don't age on regeneration."""
+    return (datetime.now(timezone.utc) - timedelta(days=days, hours=hours)).isoformat()
 
 # Custom SVG template — no external @font-face, uses universally available monospace fonts
 CUSTOM_SVG_FORMAT = """\
@@ -68,12 +79,12 @@ CONTAINERS = [
         image_id="img_nginx",
         image_name="nginx:latest",
         command="nginx -g 'daemon off;'",
-        created="2026-04-26T10:00:00Z",
+        created=ago(days=1),
         ports="80->80/tcp, :::80->80/tcp",
         project="myapp",
         service="web",
         working_dir="/home/user/projects/myapp",
-        started_at="2026-04-26T10:00:00Z",
+        started_at=ago(days=1),
         mounts=[MountInfo("volume", "myapp_static", "", "/usr/share/nginx/html")],
         networks=[NetworkAttachment("myapp_default", "172.18.0.2")],
     ),
@@ -84,12 +95,12 @@ CONTAINERS = [
         image_id="img_node",
         image_name="node:18",
         command="node server.js",
-        created="2026-04-26T10:00:00Z",
+        created=ago(days=1),
         ports="3000->3000/tcp",
         project="myapp",
         service="api",
         working_dir="/home/user/projects/myapp",
-        started_at="2026-04-26T10:00:00Z",
+        started_at=ago(days=1),
         mounts=[],
         networks=[NetworkAttachment("myapp_default", "172.18.0.3")],
     ),
@@ -100,12 +111,12 @@ CONTAINERS = [
         image_id="img_postgres",
         image_name="postgres:15",
         command="postgres",
-        created="2026-04-26T10:00:00Z",
+        created=ago(days=1),
         ports="5432->5432/tcp",
         project="myapp",
         service="db",
         working_dir="/home/user/projects/myapp",
-        started_at="2026-04-26T10:00:00Z",
+        started_at=ago(days=1),
         mounts=[MountInfo("volume", "myapp_db-data", "", "/var/lib/postgresql/data")],
         networks=[NetworkAttachment("myapp_default", "172.18.0.4")],
     ),
@@ -117,12 +128,12 @@ CONTAINERS = [
         image_id="img_grafana",
         image_name="grafana/grafana:10.2",
         command="/run.sh",
-        created="2026-04-23T08:00:00Z",
+        created=ago(days=4),
         ports="3001->3000/tcp",
         project="monitoring",
         service="grafana",
         working_dir="/opt/monitoring",
-        started_at="2026-04-23T08:00:00Z",
+        started_at=ago(days=4),
         mounts=[MountInfo("volume", "monitoring_grafana-data", "", "/var/lib/grafana")],
         networks=[NetworkAttachment("monitoring_default", "172.19.0.2")],
     ),
@@ -133,12 +144,12 @@ CONTAINERS = [
         image_id="img_prometheus",
         image_name="prom/prometheus:latest",
         command="/bin/prometheus",
-        created="2026-04-23T08:00:00Z",
+        created=ago(days=4),
         ports="9090->9090/tcp",
         project="monitoring",
         service="prometheus",
         working_dir="/opt/monitoring",
-        started_at="2026-04-23T08:00:00Z",
+        started_at=ago(days=4),
         mounts=[],
         networks=[NetworkAttachment("monitoring_default", "172.19.0.3")],
     ),
@@ -150,12 +161,12 @@ CONTAINERS = [
         image_id="img_redis",
         image_name="redis:7",
         command="redis-server",
-        created="2026-04-27T12:00:00Z",
+        created=ago(hours=19),
         ports="6379->6379/tcp",
         project=None,
         service=None,
         working_dir=None,
-        started_at="2026-04-27T12:00:00Z",
+        started_at=ago(hours=19),
         mounts=[MountInfo("volume", "redis-data", "", "/data")],
         networks=[NetworkAttachment("bridge", "172.17.0.2")],
     ),
@@ -167,7 +178,7 @@ CONTAINERS = [
         image_id="img_node",
         image_name="node:18",
         command="node worker.js",
-        created="2026-04-25T06:00:00Z",
+        created=ago(days=3),
         ports="",
         project="myapp",
         service="worker",
@@ -195,6 +206,60 @@ VOLUMES = [
     VolumeInfo(name="redis-data", driver="local", mountpoint="/var/lib/docker/volumes/redis-data", size=10_000_000),
     VolumeInfo(name="old-backup", driver="local", mountpoint="/var/lib/docker/volumes/old-backup", size=0),
 ]
+
+PORT_ROWS = [
+    {"host_port": 80, "bind": "0.0.0.0", "container_port": 80, "protocol": "tcp",
+     "container_name": "myapp-web-1", "project": "myapp", "image": "nginx:latest",
+     "network": "myapp_default"},
+    {"host_port": 3000, "bind": "0.0.0.0", "container_port": 3000, "protocol": "tcp",
+     "container_name": "myapp-api-1", "project": "myapp", "image": "node:18",
+     "network": "myapp_default"},
+    {"host_port": 3001, "bind": "0.0.0.0", "container_port": 3000, "protocol": "tcp",
+     "container_name": "monitoring-grafana-1", "project": "monitoring",
+     "image": "grafana/grafana:10.2", "network": "monitoring_default"},
+    {"host_port": 5432, "bind": "127.0.0.1", "container_port": 5432, "protocol": "tcp",
+     "container_name": "myapp-db-1", "project": "myapp", "image": "postgres:15",
+     "network": "myapp_default"},
+    {"host_port": 6379, "bind": "0.0.0.0", "container_port": 6379, "protocol": "tcp",
+     "container_name": "redis-test", "project": None, "image": "redis:7",
+     "network": "bridge"},
+    {"host_port": 9090, "bind": "127.0.0.1", "container_port": 9090, "protocol": "tcp",
+     "container_name": "monitoring-prometheus-1", "project": "monitoring",
+     "image": "prom/prometheus:latest", "network": "monitoring_default"},
+]
+
+INFO_DETAIL = {
+    "name": "myapp-worker-1",
+    "id": "a7b8c9d0e1f2a7b8c9d0e1f2",
+    "status": "exited",
+    "image": "node:18",
+    "command": "node worker.js",
+    "created": ago(days=3),
+    "started_at": None,
+    "finished_at": ago(hours=2),
+    "exit_code": 137,
+    "oom_killed": True,
+    "error": "",
+    "restart_count": 14,
+    "restart_policy": "on-failure",
+    "restart_policy_max": 5,
+    "memory_limit": 512 * 1024 * 1024,
+    "project": "myapp",
+    "service": "worker",
+    "working_dir": "/home/user/projects/myapp",
+    "networks": [{"name": "myapp_default", "ip": ""}],
+    "ports": "",
+    "mounts": [],
+    "health": None,
+    "env": ["NODE_ENV=production", "QUEUE_URL=redis://redis:6379"],
+    "last_logs": (
+        "<--- Last few GCs --->\n"
+        "[1:0x5f2a8c0]  4382919 ms: Mark-sweep 505.2 (515.4) -> 504.8 (515.6) MB\n"
+        "FATAL ERROR: Reached heap limit Allocation failed - "
+        "JavaScript heap out of memory\n"
+        " 1: 0xb85bc0 node::Abort() [node]"
+    ),
+}
 
 NETWORKS = [
     NetworkInfo(id="net1", name="myapp_default", driver="bridge", scope="local"),
@@ -255,9 +320,10 @@ def build_containers_by_network(containers):
 def main():
     print("Generating screenshots with mock data...")
 
+    # ps drops columns below width 130, so capture wide to show the full set
     capture("ps", lambda c: PsFormatter(c, False).render(
         build_containers_by_project(CONTAINERS)
-    ), title="vdocker ps -a")
+    ), width=140, title="vdocker ps -a")
 
     running = [c for c in CONTAINERS if c.status == "running"]
 
@@ -279,6 +345,12 @@ def main():
         "volumes": VOLUMES,
         "networks": NETWORKS,
     }), title="vdocker tree")
+
+    capture("ports", lambda c: PortsFormatter(c, False).render(PORT_ROWS),
+            width=140, title="vdocker ports")
+
+    capture("info", lambda c: InfoFormatter(c, False).render(INFO_DETAIL),
+            width=100, title="vdocker info myapp-worker-1")
 
     print("Done!")
 

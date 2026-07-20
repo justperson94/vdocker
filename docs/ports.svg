@@ -1,0 +1,86 @@
+<svg class="rich-terminal" viewBox="0 0 1838 318.4" xmlns="http://www.w3.org/2000/svg">
+    <!-- Generated with Rich https://www.textualize.io -->
+    <style>
+
+    .terminal-159185281-matrix {
+        font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "Courier New", monospace;
+        font-size: 20px;
+        line-height: 24.4px;
+        font-variant-east-asian: full-width;
+    }
+
+    .terminal-159185281-title {
+        font-size: 18px;
+        font-weight: bold;
+        font-family: arial;
+    }
+
+    .terminal-159185281-r1 { fill: #c5c8c6;font-weight: bold }
+.terminal-159185281-r2 { fill: #c5c8c6 }
+.terminal-159185281-r3 { fill: #868887 }
+.terminal-159185281-r4 { fill: #68a0b3;font-weight: bold }
+.terminal-159185281-r5 { fill: #98a84b }
+.terminal-159185281-r6 { fill: #d0b344 }
+    </style>
+
+    <defs>
+    <clipPath id="terminal-159185281-clip-terminal">
+      <rect x="0" y="0" width="1819.0" height="267.4" />
+    </clipPath>
+    <clipPath id="terminal-159185281-line-0">
+    <rect x="0" y="1.5" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-1">
+    <rect x="0" y="25.9" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-2">
+    <rect x="0" y="50.3" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-3">
+    <rect x="0" y="74.7" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-4">
+    <rect x="0" y="99.1" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-5">
+    <rect x="0" y="123.5" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-6">
+    <rect x="0" y="147.9" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-7">
+    <rect x="0" y="172.3" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-8">
+    <rect x="0" y="196.7" width="1820" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-159185281-line-9">
+    <rect x="0" y="221.1" width="1820" height="24.65"/>
+            </clipPath>
+    </defs>
+
+    <rect fill="#292929" stroke="rgba(255,255,255,0.35)" stroke-width="1" x="1" y="1" width="1836" height="316.4" rx="8"/><text class="terminal-159185281-title" fill="#c5c8c6" text-anchor="middle" x="918" y="27">vdocker&#160;ports</text>
+            <g transform="translate(26,22)">
+            <circle cx="0" cy="0" r="7" fill="#ff5f57"/>
+            <circle cx="22" cy="0" r="7" fill="#febc2e"/>
+            <circle cx="44" cy="0" r="7" fill="#28c840"/>
+            </g>
+        
+    <g transform="translate(9, 41)" clip-path="url(#terminal-159185281-clip-terminal)">
+    
+    <g class="terminal-159185281-matrix">
+    <text class="terminal-159185281-r1" x="0" y="20" textLength="481" clip-path="url(#terminal-159185281-line-0)">Listening&#160;Ports&#160;(sorted&#160;by&#160;host&#160;port)</text><text class="terminal-159185281-r2" x="1820" y="20" textLength="13" clip-path="url(#terminal-159185281-line-0)">
+</text><text class="terminal-159185281-r2" x="1820" y="44.4" textLength="13" clip-path="url(#terminal-159185281-line-1)">
+</text><text class="terminal-159185281-r3" x="0" y="68.8" textLength="117" clip-path="url(#terminal-159185281-line-2)">HOST&#160;PORT</text><text class="terminal-159185281-r3" x="169" y="68.8" textLength="117" clip-path="url(#terminal-159185281-line-2)">BIND&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="338" y="68.8" textLength="182" clip-path="url(#terminal-159185281-line-2)">CONTAINER&#160;PORT</text><text class="terminal-159185281-r3" x="572" y="68.8" textLength="65" clip-path="url(#terminal-159185281-line-2)">PROTO</text><text class="terminal-159185281-r3" x="689" y="68.8" textLength="481" clip-path="url(#terminal-159185281-line-2)">CONTAINER&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="1222" y="68.8" textLength="286" clip-path="url(#terminal-159185281-line-2)">IMAGE&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="1560" y="68.8" textLength="234" clip-path="url(#terminal-159185281-line-2)">NETWORK&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r2" x="1820" y="68.8" textLength="13" clip-path="url(#terminal-159185281-line-2)">
+</text><text class="terminal-159185281-r4" x="0" y="93.2" textLength="117" clip-path="url(#terminal-159185281-line-3)">80&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="169" y="93.2" textLength="117" clip-path="url(#terminal-159185281-line-3)">0.0.0.0&#160;&#160;</text><text class="terminal-159185281-r3" x="338" y="93.2" textLength="182" clip-path="url(#terminal-159185281-line-3)">80&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="572" y="93.2" textLength="65" clip-path="url(#terminal-159185281-line-3)">tcp&#160;&#160;</text><text class="terminal-159185281-r5" x="689" y="93.2" textLength="143" clip-path="url(#terminal-159185281-line-3)">myapp-web-1</text><text class="terminal-159185281-r3" x="832" y="93.2" textLength="117" clip-path="url(#terminal-159185281-line-3)">&#160;&#160;[myapp]</text><text class="terminal-159185281-r2" x="1222" y="93.2" textLength="286" clip-path="url(#terminal-159185281-line-3)">nginx:latest&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="1560" y="93.2" textLength="234" clip-path="url(#terminal-159185281-line-3)">myapp_default&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r2" x="1820" y="93.2" textLength="13" clip-path="url(#terminal-159185281-line-3)">
+</text><text class="terminal-159185281-r4" x="0" y="117.6" textLength="117" clip-path="url(#terminal-159185281-line-4)">3000&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="169" y="117.6" textLength="117" clip-path="url(#terminal-159185281-line-4)">0.0.0.0&#160;&#160;</text><text class="terminal-159185281-r3" x="338" y="117.6" textLength="182" clip-path="url(#terminal-159185281-line-4)">3000&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="572" y="117.6" textLength="65" clip-path="url(#terminal-159185281-line-4)">tcp&#160;&#160;</text><text class="terminal-159185281-r5" x="689" y="117.6" textLength="143" clip-path="url(#terminal-159185281-line-4)">myapp-api-1</text><text class="terminal-159185281-r3" x="832" y="117.6" textLength="117" clip-path="url(#terminal-159185281-line-4)">&#160;&#160;[myapp]</text><text class="terminal-159185281-r2" x="1222" y="117.6" textLength="286" clip-path="url(#terminal-159185281-line-4)">node:18&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="1560" y="117.6" textLength="234" clip-path="url(#terminal-159185281-line-4)">myapp_default&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r2" x="1820" y="117.6" textLength="13" clip-path="url(#terminal-159185281-line-4)">
+</text><text class="terminal-159185281-r4" x="0" y="142" textLength="117" clip-path="url(#terminal-159185281-line-5)">3001&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="169" y="142" textLength="117" clip-path="url(#terminal-159185281-line-5)">0.0.0.0&#160;&#160;</text><text class="terminal-159185281-r3" x="338" y="142" textLength="182" clip-path="url(#terminal-159185281-line-5)">3000&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="572" y="142" textLength="65" clip-path="url(#terminal-159185281-line-5)">tcp&#160;&#160;</text><text class="terminal-159185281-r5" x="689" y="142" textLength="260" clip-path="url(#terminal-159185281-line-5)">monitoring-grafana-1</text><text class="terminal-159185281-r3" x="949" y="142" textLength="182" clip-path="url(#terminal-159185281-line-5)">&#160;&#160;[monitoring]</text><text class="terminal-159185281-r2" x="1222" y="142" textLength="286" clip-path="url(#terminal-159185281-line-5)">grafana/grafana:10.2&#160;&#160;</text><text class="terminal-159185281-r3" x="1560" y="142" textLength="234" clip-path="url(#terminal-159185281-line-5)">monitoring_default</text><text class="terminal-159185281-r2" x="1820" y="142" textLength="13" clip-path="url(#terminal-159185281-line-5)">
+</text><text class="terminal-159185281-r4" x="0" y="166.4" textLength="117" clip-path="url(#terminal-159185281-line-6)">5432&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r6" x="169" y="166.4" textLength="117" clip-path="url(#terminal-159185281-line-6)">127.0.0.1</text><text class="terminal-159185281-r3" x="338" y="166.4" textLength="182" clip-path="url(#terminal-159185281-line-6)">5432&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="572" y="166.4" textLength="65" clip-path="url(#terminal-159185281-line-6)">tcp&#160;&#160;</text><text class="terminal-159185281-r5" x="689" y="166.4" textLength="130" clip-path="url(#terminal-159185281-line-6)">myapp-db-1</text><text class="terminal-159185281-r3" x="819" y="166.4" textLength="117" clip-path="url(#terminal-159185281-line-6)">&#160;&#160;[myapp]</text><text class="terminal-159185281-r2" x="1222" y="166.4" textLength="286" clip-path="url(#terminal-159185281-line-6)">postgres:15&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="1560" y="166.4" textLength="234" clip-path="url(#terminal-159185281-line-6)">myapp_default&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r2" x="1820" y="166.4" textLength="13" clip-path="url(#terminal-159185281-line-6)">
+</text><text class="terminal-159185281-r4" x="0" y="190.8" textLength="117" clip-path="url(#terminal-159185281-line-7)">6379&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="169" y="190.8" textLength="117" clip-path="url(#terminal-159185281-line-7)">0.0.0.0&#160;&#160;</text><text class="terminal-159185281-r3" x="338" y="190.8" textLength="182" clip-path="url(#terminal-159185281-line-7)">6379&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="572" y="190.8" textLength="65" clip-path="url(#terminal-159185281-line-7)">tcp&#160;&#160;</text><text class="terminal-159185281-r5" x="689" y="190.8" textLength="130" clip-path="url(#terminal-159185281-line-7)">redis-test</text><text class="terminal-159185281-r2" x="1222" y="190.8" textLength="286" clip-path="url(#terminal-159185281-line-7)">redis:7&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="1560" y="190.8" textLength="234" clip-path="url(#terminal-159185281-line-7)">bridge&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r2" x="1820" y="190.8" textLength="13" clip-path="url(#terminal-159185281-line-7)">
+</text><text class="terminal-159185281-r4" x="0" y="215.2" textLength="117" clip-path="url(#terminal-159185281-line-8)">9090&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r6" x="169" y="215.2" textLength="117" clip-path="url(#terminal-159185281-line-8)">127.0.0.1</text><text class="terminal-159185281-r3" x="338" y="215.2" textLength="182" clip-path="url(#terminal-159185281-line-8)">9090&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-159185281-r3" x="572" y="215.2" textLength="65" clip-path="url(#terminal-159185281-line-8)">tcp&#160;&#160;</text><text class="terminal-159185281-r5" x="689" y="215.2" textLength="299" clip-path="url(#terminal-159185281-line-8)">monitoring-prometheus-1</text><text class="terminal-159185281-r3" x="988" y="215.2" textLength="182" clip-path="url(#terminal-159185281-line-8)">&#160;&#160;[monitoring]</text><text class="terminal-159185281-r2" x="1222" y="215.2" textLength="286" clip-path="url(#terminal-159185281-line-8)">prom/prometheus:latest</text><text class="terminal-159185281-r3" x="1560" y="215.2" textLength="234" clip-path="url(#terminal-159185281-line-8)">monitoring_default</text><text class="terminal-159185281-r2" x="1820" y="215.2" textLength="13" clip-path="url(#terminal-159185281-line-8)">
+</text><text class="terminal-159185281-r2" x="1820" y="239.6" textLength="13" clip-path="url(#terminal-159185281-line-9)">
+</text><text class="terminal-159185281-r3" x="0" y="264" textLength="390" clip-path="url(#terminal-159185281-line-10)">6&#160;ports&#160;in&#160;use&#160;by&#160;6&#160;containers</text><text class="terminal-159185281-r2" x="1820" y="264" textLength="13" clip-path="url(#terminal-159185281-line-10)">
+</text>
+    </g>
+    </g>
+</svg>

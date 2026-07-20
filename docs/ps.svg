@@ -1,114 +1,102 @@
-<svg class="rich-terminal" viewBox="0 0 1448 489.2" xmlns="http://www.w3.org/2000/svg">
+<svg class="rich-terminal" viewBox="0 0 1838 416.0" xmlns="http://www.w3.org/2000/svg">
     <!-- Generated with Rich https://www.textualize.io -->
     <style>
 
-    .terminal-3113330127-matrix {
+    .terminal-1523426821-matrix {
         font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "Courier New", monospace;
         font-size: 20px;
         line-height: 24.4px;
         font-variant-east-asian: full-width;
     }
 
-    .terminal-3113330127-title {
+    .terminal-1523426821-title {
         font-size: 18px;
         font-weight: bold;
         font-family: arial;
     }
 
-    .terminal-3113330127-r1 { fill: #68a0b3;font-weight: bold }
-.terminal-3113330127-r2 { fill: #4e707b;font-weight: bold }
-.terminal-3113330127-r3 { fill: #c5c8c6 }
-.terminal-3113330127-r4 { fill: #868887 }
-.terminal-3113330127-r5 { fill: #98a84b }
-.terminal-3113330127-r6 { fill: #68a0b3 }
-.terminal-3113330127-r7 { fill: #cc555a }
+    .terminal-1523426821-r1 { fill: #68a0b3;font-weight: bold }
+.terminal-1523426821-r2 { fill: #4e707b;font-weight: bold }
+.terminal-1523426821-r3 { fill: #c5c8c6 }
+.terminal-1523426821-r4 { fill: #868887 }
+.terminal-1523426821-r5 { fill: #98a84b }
+.terminal-1523426821-r6 { fill: #68a0b3 }
+.terminal-1523426821-r7 { fill: #cc555a }
     </style>
 
     <defs>
-    <clipPath id="terminal-3113330127-clip-terminal">
-      <rect x="0" y="0" width="1429.0" height="438.2" />
+    <clipPath id="terminal-1523426821-clip-terminal">
+      <rect x="0" y="0" width="1819.0" height="365.0" />
     </clipPath>
-    <clipPath id="terminal-3113330127-line-0">
-    <rect x="0" y="1.5" width="1430" height="24.65"/>
+    <clipPath id="terminal-1523426821-line-0">
+    <rect x="0" y="1.5" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-1">
-    <rect x="0" y="25.9" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-1">
+    <rect x="0" y="25.9" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-2">
-    <rect x="0" y="50.3" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-2">
+    <rect x="0" y="50.3" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-3">
-    <rect x="0" y="74.7" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-3">
+    <rect x="0" y="74.7" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-4">
-    <rect x="0" y="99.1" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-4">
+    <rect x="0" y="99.1" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-5">
-    <rect x="0" y="123.5" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-5">
+    <rect x="0" y="123.5" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-6">
-    <rect x="0" y="147.9" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-6">
+    <rect x="0" y="147.9" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-7">
-    <rect x="0" y="172.3" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-7">
+    <rect x="0" y="172.3" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-8">
-    <rect x="0" y="196.7" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-8">
+    <rect x="0" y="196.7" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-9">
-    <rect x="0" y="221.1" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-9">
+    <rect x="0" y="221.1" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-10">
-    <rect x="0" y="245.5" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-10">
+    <rect x="0" y="245.5" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-11">
-    <rect x="0" y="269.9" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-11">
+    <rect x="0" y="269.9" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-12">
-    <rect x="0" y="294.3" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-12">
+    <rect x="0" y="294.3" width="1820" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3113330127-line-13">
-    <rect x="0" y="318.7" width="1430" height="24.65"/>
-            </clipPath>
-<clipPath id="terminal-3113330127-line-14">
-    <rect x="0" y="343.1" width="1430" height="24.65"/>
-            </clipPath>
-<clipPath id="terminal-3113330127-line-15">
-    <rect x="0" y="367.5" width="1430" height="24.65"/>
-            </clipPath>
-<clipPath id="terminal-3113330127-line-16">
-    <rect x="0" y="391.9" width="1430" height="24.65"/>
+<clipPath id="terminal-1523426821-line-13">
+    <rect x="0" y="318.7" width="1820" height="24.65"/>
             </clipPath>
     </defs>
 
-    <rect fill="#292929" stroke="rgba(255,255,255,0.35)" stroke-width="1" x="1" y="1" width="1446" height="487.2" rx="8"/><text class="terminal-3113330127-title" fill="#c5c8c6" text-anchor="middle" x="723" y="27">vdocker&#160;ps&#160;-a</text>
+    <rect fill="#292929" stroke="rgba(255,255,255,0.35)" stroke-width="1" x="1" y="1" width="1836" height="414" rx="8"/><text class="terminal-1523426821-title" fill="#c5c8c6" text-anchor="middle" x="918" y="27">vdocker&#160;ps&#160;-a</text>
             <g transform="translate(26,22)">
             <circle cx="0" cy="0" r="7" fill="#ff5f57"/>
             <circle cx="22" cy="0" r="7" fill="#febc2e"/>
             <circle cx="44" cy="0" r="7" fill="#28c840"/>
             </g>
         
-    <g transform="translate(9, 41)" clip-path="url(#terminal-3113330127-clip-terminal)">
+    <g transform="translate(9, 41)" clip-path="url(#terminal-1523426821-clip-terminal)">
     
-    <g class="terminal-3113330127-matrix">
-    <text class="terminal-3113330127-r1" x="0" y="20" textLength="156" clip-path="url(#terminal-3113330127-line-0)">[monitoring]</text><text class="terminal-3113330127-r2" x="156" y="20" textLength="221" clip-path="url(#terminal-3113330127-line-0)">&#160;&#160;/opt/monitoring</text><text class="terminal-3113330127-r3" x="1430" y="20" textLength="13" clip-path="url(#terminal-3113330127-line-0)">
-</text><text class="terminal-3113330127-r4" x="0" y="44.4" textLength="182" clip-path="url(#terminal-3113330127-line-1)">&#160;&#160;ID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="234" y="44.4" textLength="299" clip-path="url(#terminal-3113330127-line-1)">NAME&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="585" y="44.4" textLength="286" clip-path="url(#terminal-3113330127-line-1)">IMAGE&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="923" y="44.4" textLength="221" clip-path="url(#terminal-3113330127-line-1)">COMMAND&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="1196" y="44.4" textLength="91" clip-path="url(#terminal-3113330127-line-1)">CREATED</text><text class="terminal-3113330127-r4" x="1339" y="44.4" textLength="65" clip-path="url(#terminal-3113330127-line-1)">STAT…</text><text class="terminal-3113330127-r3" x="1430" y="44.4" textLength="13" clip-path="url(#terminal-3113330127-line-1)">
-</text><text class="terminal-3113330127-r4" x="0" y="68.8" textLength="182" clip-path="url(#terminal-3113330127-line-2)">&#160;&#160;d4e5f6a7b8c9</text><text class="terminal-3113330127-r5" x="234" y="68.8" textLength="299" clip-path="url(#terminal-3113330127-line-2)">monitoring-grafana-1&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="585" y="68.8" textLength="286" clip-path="url(#terminal-3113330127-line-2)">grafana/grafana:10.2&#160;&#160;</text><text class="terminal-3113330127-r4" x="923" y="68.8" textLength="221" clip-path="url(#terminal-3113330127-line-2)">&quot;/run.sh&quot;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="1196" y="68.8" textLength="91" clip-path="url(#terminal-3113330127-line-2)">5d&#160;ago&#160;</text><text class="terminal-3113330127-r5" x="1339" y="68.8" textLength="65" clip-path="url(#terminal-3113330127-line-2)">Up&#160;5d</text><text class="terminal-3113330127-r3" x="1430" y="68.8" textLength="13" clip-path="url(#terminal-3113330127-line-2)">
-</text><text class="terminal-3113330127-r4" x="0" y="93.2" textLength="182" clip-path="url(#terminal-3113330127-line-3)">&#160;&#160;e5f6a7b8c9d0</text><text class="terminal-3113330127-r5" x="234" y="93.2" textLength="299" clip-path="url(#terminal-3113330127-line-3)">monitoring-prometheus-1</text><text class="terminal-3113330127-r3" x="585" y="93.2" textLength="286" clip-path="url(#terminal-3113330127-line-3)">prom/prometheus:latest</text><text class="terminal-3113330127-r4" x="923" y="93.2" textLength="221" clip-path="url(#terminal-3113330127-line-3)">&quot;/bin/prometheus&quot;</text><text class="terminal-3113330127-r4" x="1196" y="93.2" textLength="91" clip-path="url(#terminal-3113330127-line-3)">5d&#160;ago&#160;</text><text class="terminal-3113330127-r5" x="1339" y="93.2" textLength="65" clip-path="url(#terminal-3113330127-line-3)">Up&#160;5d</text><text class="terminal-3113330127-r3" x="1430" y="93.2" textLength="13" clip-path="url(#terminal-3113330127-line-3)">
-</text><text class="terminal-3113330127-r3" x="1430" y="117.6" textLength="13" clip-path="url(#terminal-3113330127-line-4)">
-</text><text class="terminal-3113330127-r1" x="0" y="142" textLength="91" clip-path="url(#terminal-3113330127-line-5)">[myapp]</text><text class="terminal-3113330127-r2" x="91" y="142" textLength="351" clip-path="url(#terminal-3113330127-line-5)">&#160;&#160;/home/user/projects/myapp</text><text class="terminal-3113330127-r3" x="1430" y="142" textLength="13" clip-path="url(#terminal-3113330127-line-5)">
-</text><text class="terminal-3113330127-r4" x="0" y="166.4" textLength="182" clip-path="url(#terminal-3113330127-line-6)">&#160;&#160;ID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="234" y="166.4" textLength="182" clip-path="url(#terminal-3113330127-line-6)">NAME&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="468" y="166.4" textLength="156" clip-path="url(#terminal-3113330127-line-6)">IMAGE&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="676" y="166.4" textLength="260" clip-path="url(#terminal-3113330127-line-6)">COMMAND&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="988" y="166.4" textLength="91" clip-path="url(#terminal-3113330127-line-6)">CREATED</text><text class="terminal-3113330127-r4" x="1131" y="166.4" textLength="78" clip-path="url(#terminal-3113330127-line-6)">STATUS</text><text class="terminal-3113330127-r4" x="1261" y="166.4" textLength="169" clip-path="url(#terminal-3113330127-line-6)">PORTS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="1430" y="166.4" textLength="13" clip-path="url(#terminal-3113330127-line-6)">
-</text><text class="terminal-3113330127-r4" x="0" y="190.8" textLength="182" clip-path="url(#terminal-3113330127-line-7)">&#160;&#160;b2c3d4e5f6a7</text><text class="terminal-3113330127-r5" x="234" y="190.8" textLength="182" clip-path="url(#terminal-3113330127-line-7)">myapp-api-1&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="468" y="190.8" textLength="156" clip-path="url(#terminal-3113330127-line-7)">node:18&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="676" y="190.8" textLength="260" clip-path="url(#terminal-3113330127-line-7)">&quot;node&#160;server.js&quot;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="988" y="190.8" textLength="91" clip-path="url(#terminal-3113330127-line-7)">2d&#160;ago&#160;</text><text class="terminal-3113330127-r5" x="1131" y="190.8" textLength="78" clip-path="url(#terminal-3113330127-line-7)">Up&#160;2d&#160;</text><text class="terminal-3113330127-r6" x="1261" y="190.8" textLength="169" clip-path="url(#terminal-3113330127-line-7)">3000-&gt;3000/tc</text><text class="terminal-3113330127-r3" x="1430" y="190.8" textLength="13" clip-path="url(#terminal-3113330127-line-7)">
-</text><text class="terminal-3113330127-r6" x="1261" y="215.2" textLength="169" clip-path="url(#terminal-3113330127-line-8)">p&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="1430" y="215.2" textLength="13" clip-path="url(#terminal-3113330127-line-8)">
-</text><text class="terminal-3113330127-r4" x="0" y="239.6" textLength="182" clip-path="url(#terminal-3113330127-line-9)">&#160;&#160;c3d4e5f6a7b8</text><text class="terminal-3113330127-r5" x="234" y="239.6" textLength="182" clip-path="url(#terminal-3113330127-line-9)">myapp-db-1&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="468" y="239.6" textLength="156" clip-path="url(#terminal-3113330127-line-9)">postgres:15&#160;</text><text class="terminal-3113330127-r4" x="676" y="239.6" textLength="260" clip-path="url(#terminal-3113330127-line-9)">&quot;postgres&quot;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="988" y="239.6" textLength="91" clip-path="url(#terminal-3113330127-line-9)">2d&#160;ago&#160;</text><text class="terminal-3113330127-r5" x="1131" y="239.6" textLength="78" clip-path="url(#terminal-3113330127-line-9)">Up&#160;2d&#160;</text><text class="terminal-3113330127-r6" x="1261" y="239.6" textLength="169" clip-path="url(#terminal-3113330127-line-9)">5432-&gt;5432/tc</text><text class="terminal-3113330127-r3" x="1430" y="239.6" textLength="13" clip-path="url(#terminal-3113330127-line-9)">
-</text><text class="terminal-3113330127-r6" x="1261" y="264" textLength="169" clip-path="url(#terminal-3113330127-line-10)">p&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="1430" y="264" textLength="13" clip-path="url(#terminal-3113330127-line-10)">
-</text><text class="terminal-3113330127-r4" x="0" y="288.4" textLength="182" clip-path="url(#terminal-3113330127-line-11)">&#160;&#160;a1b2c3d4e5f6</text><text class="terminal-3113330127-r5" x="234" y="288.4" textLength="182" clip-path="url(#terminal-3113330127-line-11)">myapp-web-1&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="468" y="288.4" textLength="156" clip-path="url(#terminal-3113330127-line-11)">nginx:latest</text><text class="terminal-3113330127-r4" x="676" y="288.4" textLength="260" clip-path="url(#terminal-3113330127-line-11)">&quot;nginx&#160;-g&#160;&#x27;daemon&#160;o…</text><text class="terminal-3113330127-r4" x="988" y="288.4" textLength="91" clip-path="url(#terminal-3113330127-line-11)">2d&#160;ago&#160;</text><text class="terminal-3113330127-r5" x="1131" y="288.4" textLength="78" clip-path="url(#terminal-3113330127-line-11)">Up&#160;2d&#160;</text><text class="terminal-3113330127-r6" x="1261" y="288.4" textLength="169" clip-path="url(#terminal-3113330127-line-11)">80-&gt;80/tcp,&#160;&#160;</text><text class="terminal-3113330127-r3" x="1430" y="288.4" textLength="13" clip-path="url(#terminal-3113330127-line-11)">
-</text><text class="terminal-3113330127-r6" x="1261" y="312.8" textLength="169" clip-path="url(#terminal-3113330127-line-12)">:::80-&gt;80/tcp</text><text class="terminal-3113330127-r3" x="1430" y="312.8" textLength="13" clip-path="url(#terminal-3113330127-line-12)">
-</text><text class="terminal-3113330127-r4" x="0" y="337.2" textLength="182" clip-path="url(#terminal-3113330127-line-13)">&#160;&#160;a7b8c9d0e1f2</text><text class="terminal-3113330127-r7" x="234" y="337.2" textLength="182" clip-path="url(#terminal-3113330127-line-13)">myapp-worker-1</text><text class="terminal-3113330127-r3" x="468" y="337.2" textLength="156" clip-path="url(#terminal-3113330127-line-13)">node:18&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="676" y="337.2" textLength="260" clip-path="url(#terminal-3113330127-line-13)">&quot;node&#160;worker.js&quot;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="988" y="337.2" textLength="91" clip-path="url(#terminal-3113330127-line-13)">3d&#160;ago&#160;</text><text class="terminal-3113330127-r7" x="1131" y="337.2" textLength="78" clip-path="url(#terminal-3113330127-line-13)">Exited</text><text class="terminal-3113330127-r3" x="1430" y="337.2" textLength="13" clip-path="url(#terminal-3113330127-line-13)">
-</text><text class="terminal-3113330127-r3" x="1430" y="361.6" textLength="13" clip-path="url(#terminal-3113330127-line-14)">
-</text><text class="terminal-3113330127-r1" x="0" y="386" textLength="156" clip-path="url(#terminal-3113330127-line-15)">[standalone]</text><text class="terminal-3113330127-r3" x="1430" y="386" textLength="13" clip-path="url(#terminal-3113330127-line-15)">
-</text><text class="terminal-3113330127-r4" x="0" y="410.4" textLength="182" clip-path="url(#terminal-3113330127-line-16)">&#160;&#160;ID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="234" y="410.4" textLength="130" clip-path="url(#terminal-3113330127-line-16)">NAME&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="416" y="410.4" textLength="91" clip-path="url(#terminal-3113330127-line-16)">IMAGE&#160;&#160;</text><text class="terminal-3113330127-r4" x="559" y="410.4" textLength="182" clip-path="url(#terminal-3113330127-line-16)">COMMAND&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r4" x="793" y="410.4" textLength="91" clip-path="url(#terminal-3113330127-line-16)">CREATED</text><text class="terminal-3113330127-r4" x="936" y="410.4" textLength="78" clip-path="url(#terminal-3113330127-line-16)">STATUS</text><text class="terminal-3113330127-r4" x="1066" y="410.4" textLength="182" clip-path="url(#terminal-3113330127-line-16)">PORTS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-3113330127-r3" x="1430" y="410.4" textLength="13" clip-path="url(#terminal-3113330127-line-16)">
-</text><text class="terminal-3113330127-r4" x="0" y="434.8" textLength="182" clip-path="url(#terminal-3113330127-line-17)">&#160;&#160;f6a7b8c9d0e1</text><text class="terminal-3113330127-r5" x="234" y="434.8" textLength="130" clip-path="url(#terminal-3113330127-line-17)">redis-test</text><text class="terminal-3113330127-r3" x="416" y="434.8" textLength="91" clip-path="url(#terminal-3113330127-line-17)">redis:7</text><text class="terminal-3113330127-r4" x="559" y="434.8" textLength="182" clip-path="url(#terminal-3113330127-line-17)">&quot;redis-server&quot;</text><text class="terminal-3113330127-r4" x="793" y="434.8" textLength="91" clip-path="url(#terminal-3113330127-line-17)">1d&#160;ago&#160;</text><text class="terminal-3113330127-r5" x="936" y="434.8" textLength="78" clip-path="url(#terminal-3113330127-line-17)">Up&#160;1d&#160;</text><text class="terminal-3113330127-r6" x="1066" y="434.8" textLength="182" clip-path="url(#terminal-3113330127-line-17)">6379-&gt;6379/tcp</text><text class="terminal-3113330127-r3" x="1430" y="434.8" textLength="13" clip-path="url(#terminal-3113330127-line-17)">
+    <g class="terminal-1523426821-matrix">
+    <text class="terminal-1523426821-r1" x="0" y="20" textLength="156" clip-path="url(#terminal-1523426821-line-0)">[monitoring]</text><text class="terminal-1523426821-r2" x="156" y="20" textLength="221" clip-path="url(#terminal-1523426821-line-0)">&#160;&#160;/opt/monitoring</text><text class="terminal-1523426821-r3" x="1820" y="20" textLength="13" clip-path="url(#terminal-1523426821-line-0)">
+</text><text class="terminal-1523426821-r4" x="0" y="44.4" textLength="182" clip-path="url(#terminal-1523426821-line-1)">&#160;&#160;ID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="234" y="44.4" textLength="299" clip-path="url(#terminal-1523426821-line-1)">NAME&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="585" y="44.4" textLength="286" clip-path="url(#terminal-1523426821-line-1)">IMAGE&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="923" y="44.4" textLength="221" clip-path="url(#terminal-1523426821-line-1)">COMMAND&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="1196" y="44.4" textLength="91" clip-path="url(#terminal-1523426821-line-1)">CREATED</text><text class="terminal-1523426821-r4" x="1339" y="44.4" textLength="78" clip-path="url(#terminal-1523426821-line-1)">STATUS</text><text class="terminal-1523426821-r4" x="1469" y="44.4" textLength="182" clip-path="url(#terminal-1523426821-line-1)">PORTS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="1820" y="44.4" textLength="13" clip-path="url(#terminal-1523426821-line-1)">
+</text><text class="terminal-1523426821-r4" x="0" y="68.8" textLength="182" clip-path="url(#terminal-1523426821-line-2)">&#160;&#160;d4e5f6a7b8c9</text><text class="terminal-1523426821-r5" x="234" y="68.8" textLength="299" clip-path="url(#terminal-1523426821-line-2)">monitoring-grafana-1&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="585" y="68.8" textLength="286" clip-path="url(#terminal-1523426821-line-2)">grafana/grafana:10.2&#160;&#160;</text><text class="terminal-1523426821-r4" x="923" y="68.8" textLength="221" clip-path="url(#terminal-1523426821-line-2)">&quot;/run.sh&quot;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="1196" y="68.8" textLength="91" clip-path="url(#terminal-1523426821-line-2)">4d&#160;ago&#160;</text><text class="terminal-1523426821-r5" x="1339" y="68.8" textLength="78" clip-path="url(#terminal-1523426821-line-2)">Up&#160;4d&#160;</text><text class="terminal-1523426821-r6" x="1469" y="68.8" textLength="182" clip-path="url(#terminal-1523426821-line-2)">3001-&gt;3000/tcp</text><text class="terminal-1523426821-r3" x="1820" y="68.8" textLength="13" clip-path="url(#terminal-1523426821-line-2)">
+</text><text class="terminal-1523426821-r4" x="0" y="93.2" textLength="182" clip-path="url(#terminal-1523426821-line-3)">&#160;&#160;e5f6a7b8c9d0</text><text class="terminal-1523426821-r5" x="234" y="93.2" textLength="299" clip-path="url(#terminal-1523426821-line-3)">monitoring-prometheus-1</text><text class="terminal-1523426821-r3" x="585" y="93.2" textLength="286" clip-path="url(#terminal-1523426821-line-3)">prom/prometheus:latest</text><text class="terminal-1523426821-r4" x="923" y="93.2" textLength="221" clip-path="url(#terminal-1523426821-line-3)">&quot;/bin/prometheus&quot;</text><text class="terminal-1523426821-r4" x="1196" y="93.2" textLength="91" clip-path="url(#terminal-1523426821-line-3)">4d&#160;ago&#160;</text><text class="terminal-1523426821-r5" x="1339" y="93.2" textLength="78" clip-path="url(#terminal-1523426821-line-3)">Up&#160;4d&#160;</text><text class="terminal-1523426821-r6" x="1469" y="93.2" textLength="182" clip-path="url(#terminal-1523426821-line-3)">9090-&gt;9090/tcp</text><text class="terminal-1523426821-r3" x="1820" y="93.2" textLength="13" clip-path="url(#terminal-1523426821-line-3)">
+</text><text class="terminal-1523426821-r3" x="1820" y="117.6" textLength="13" clip-path="url(#terminal-1523426821-line-4)">
+</text><text class="terminal-1523426821-r1" x="0" y="142" textLength="91" clip-path="url(#terminal-1523426821-line-5)">[myapp]</text><text class="terminal-1523426821-r2" x="91" y="142" textLength="351" clip-path="url(#terminal-1523426821-line-5)">&#160;&#160;/home/user/projects/myapp</text><text class="terminal-1523426821-r3" x="1820" y="142" textLength="13" clip-path="url(#terminal-1523426821-line-5)">
+</text><text class="terminal-1523426821-r4" x="0" y="166.4" textLength="182" clip-path="url(#terminal-1523426821-line-6)">&#160;&#160;ID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="234" y="166.4" textLength="182" clip-path="url(#terminal-1523426821-line-6)">NAME&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="468" y="166.4" textLength="156" clip-path="url(#terminal-1523426821-line-6)">IMAGE&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="676" y="166.4" textLength="260" clip-path="url(#terminal-1523426821-line-6)">COMMAND&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="988" y="166.4" textLength="91" clip-path="url(#terminal-1523426821-line-6)">CREATED</text><text class="terminal-1523426821-r4" x="1131" y="166.4" textLength="78" clip-path="url(#terminal-1523426821-line-6)">STATUS</text><text class="terminal-1523426821-r4" x="1261" y="166.4" textLength="325" clip-path="url(#terminal-1523426821-line-6)">PORTS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="1820" y="166.4" textLength="13" clip-path="url(#terminal-1523426821-line-6)">
+</text><text class="terminal-1523426821-r4" x="0" y="190.8" textLength="182" clip-path="url(#terminal-1523426821-line-7)">&#160;&#160;b2c3d4e5f6a7</text><text class="terminal-1523426821-r5" x="234" y="190.8" textLength="182" clip-path="url(#terminal-1523426821-line-7)">myapp-api-1&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="468" y="190.8" textLength="156" clip-path="url(#terminal-1523426821-line-7)">node:18&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="676" y="190.8" textLength="260" clip-path="url(#terminal-1523426821-line-7)">&quot;node&#160;server.js&quot;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="988" y="190.8" textLength="91" clip-path="url(#terminal-1523426821-line-7)">1d&#160;ago&#160;</text><text class="terminal-1523426821-r5" x="1131" y="190.8" textLength="78" clip-path="url(#terminal-1523426821-line-7)">Up&#160;1d&#160;</text><text class="terminal-1523426821-r6" x="1261" y="190.8" textLength="325" clip-path="url(#terminal-1523426821-line-7)">3000-&gt;3000/tcp&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="1820" y="190.8" textLength="13" clip-path="url(#terminal-1523426821-line-7)">
+</text><text class="terminal-1523426821-r4" x="0" y="215.2" textLength="182" clip-path="url(#terminal-1523426821-line-8)">&#160;&#160;c3d4e5f6a7b8</text><text class="terminal-1523426821-r5" x="234" y="215.2" textLength="182" clip-path="url(#terminal-1523426821-line-8)">myapp-db-1&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="468" y="215.2" textLength="156" clip-path="url(#terminal-1523426821-line-8)">postgres:15&#160;</text><text class="terminal-1523426821-r4" x="676" y="215.2" textLength="260" clip-path="url(#terminal-1523426821-line-8)">&quot;postgres&quot;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="988" y="215.2" textLength="91" clip-path="url(#terminal-1523426821-line-8)">1d&#160;ago&#160;</text><text class="terminal-1523426821-r5" x="1131" y="215.2" textLength="78" clip-path="url(#terminal-1523426821-line-8)">Up&#160;1d&#160;</text><text class="terminal-1523426821-r6" x="1261" y="215.2" textLength="325" clip-path="url(#terminal-1523426821-line-8)">5432-&gt;5432/tcp&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="1820" y="215.2" textLength="13" clip-path="url(#terminal-1523426821-line-8)">
+</text><text class="terminal-1523426821-r4" x="0" y="239.6" textLength="182" clip-path="url(#terminal-1523426821-line-9)">&#160;&#160;a1b2c3d4e5f6</text><text class="terminal-1523426821-r5" x="234" y="239.6" textLength="182" clip-path="url(#terminal-1523426821-line-9)">myapp-web-1&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="468" y="239.6" textLength="156" clip-path="url(#terminal-1523426821-line-9)">nginx:latest</text><text class="terminal-1523426821-r4" x="676" y="239.6" textLength="260" clip-path="url(#terminal-1523426821-line-9)">&quot;nginx&#160;-g&#160;&#x27;daemon&#160;o…</text><text class="terminal-1523426821-r4" x="988" y="239.6" textLength="91" clip-path="url(#terminal-1523426821-line-9)">1d&#160;ago&#160;</text><text class="terminal-1523426821-r5" x="1131" y="239.6" textLength="78" clip-path="url(#terminal-1523426821-line-9)">Up&#160;1d&#160;</text><text class="terminal-1523426821-r6" x="1261" y="239.6" textLength="325" clip-path="url(#terminal-1523426821-line-9)">80-&gt;80/tcp,&#160;:::80-&gt;80/tcp</text><text class="terminal-1523426821-r3" x="1820" y="239.6" textLength="13" clip-path="url(#terminal-1523426821-line-9)">
+</text><text class="terminal-1523426821-r4" x="0" y="264" textLength="182" clip-path="url(#terminal-1523426821-line-10)">&#160;&#160;a7b8c9d0e1f2</text><text class="terminal-1523426821-r7" x="234" y="264" textLength="182" clip-path="url(#terminal-1523426821-line-10)">myapp-worker-1</text><text class="terminal-1523426821-r3" x="468" y="264" textLength="156" clip-path="url(#terminal-1523426821-line-10)">node:18&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="676" y="264" textLength="260" clip-path="url(#terminal-1523426821-line-10)">&quot;node&#160;worker.js&quot;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="988" y="264" textLength="91" clip-path="url(#terminal-1523426821-line-10)">3d&#160;ago&#160;</text><text class="terminal-1523426821-r7" x="1131" y="264" textLength="78" clip-path="url(#terminal-1523426821-line-10)">Exited</text><text class="terminal-1523426821-r3" x="1820" y="264" textLength="13" clip-path="url(#terminal-1523426821-line-10)">
+</text><text class="terminal-1523426821-r3" x="1820" y="288.4" textLength="13" clip-path="url(#terminal-1523426821-line-11)">
+</text><text class="terminal-1523426821-r1" x="0" y="312.8" textLength="156" clip-path="url(#terminal-1523426821-line-12)">[standalone]</text><text class="terminal-1523426821-r3" x="1820" y="312.8" textLength="13" clip-path="url(#terminal-1523426821-line-12)">
+</text><text class="terminal-1523426821-r4" x="0" y="337.2" textLength="182" clip-path="url(#terminal-1523426821-line-13)">&#160;&#160;ID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="234" y="337.2" textLength="130" clip-path="url(#terminal-1523426821-line-13)">NAME&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="416" y="337.2" textLength="91" clip-path="url(#terminal-1523426821-line-13)">IMAGE&#160;&#160;</text><text class="terminal-1523426821-r4" x="559" y="337.2" textLength="182" clip-path="url(#terminal-1523426821-line-13)">COMMAND&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r4" x="793" y="337.2" textLength="91" clip-path="url(#terminal-1523426821-line-13)">CREATED</text><text class="terminal-1523426821-r4" x="936" y="337.2" textLength="78" clip-path="url(#terminal-1523426821-line-13)">STATUS</text><text class="terminal-1523426821-r4" x="1066" y="337.2" textLength="182" clip-path="url(#terminal-1523426821-line-13)">PORTS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</text><text class="terminal-1523426821-r3" x="1820" y="337.2" textLength="13" clip-path="url(#terminal-1523426821-line-13)">
+</text><text class="terminal-1523426821-r4" x="0" y="361.6" textLength="182" clip-path="url(#terminal-1523426821-line-14)">&#160;&#160;f6a7b8c9d0e1</text><text class="terminal-1523426821-r5" x="234" y="361.6" textLength="130" clip-path="url(#terminal-1523426821-line-14)">redis-test</text><text class="terminal-1523426821-r3" x="416" y="361.6" textLength="91" clip-path="url(#terminal-1523426821-line-14)">redis:7</text><text class="terminal-1523426821-r4" x="559" y="361.6" textLength="182" clip-path="url(#terminal-1523426821-line-14)">&quot;redis-server&quot;</text><text class="terminal-1523426821-r4" x="793" y="361.6" textLength="91" clip-path="url(#terminal-1523426821-line-14)">19h&#160;ago</text><text class="terminal-1523426821-r5" x="936" y="361.6" textLength="78" clip-path="url(#terminal-1523426821-line-14)">Up&#160;19h</text><text class="terminal-1523426821-r6" x="1066" y="361.6" textLength="182" clip-path="url(#terminal-1523426821-line-14)">6379-&gt;6379/tcp</text><text class="terminal-1523426821-r3" x="1820" y="361.6" textLength="13" clip-path="url(#terminal-1523426821-line-14)">
 </text>
     </g>
     </g>

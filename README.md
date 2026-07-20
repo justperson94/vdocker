@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://github.com/justperson94/vdocker/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/justperson94/vdocker?style=for-the-badge&color=2496ED)](https://github.com/justperson94/vdocker/releases)
 [![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-lightgrey?style=for-the-badge)](https://github.com/justperson94/vdocker/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/justperson94/vdocker/ci.yml?style=for-the-badge&label=CI)](https://github.com/justperson94/vdocker/actions/workflows/ci.yml)
 
 A CLI tool that visualizes Docker objects (containers, images, volumes, networks) and their relationships in grouped/tree format.
 
@@ -78,6 +79,29 @@ Use `--unused` flag to include images with no containers.
 
 ![vdocker tree](docs/tree.svg)
 
+### `vdocker ports` — Who is using which port
+
+All host-exposed ports in one sorted table. The BIND column makes the
+security-relevant difference between `0.0.0.0` (open to the world) and
+`127.0.0.1` (localhost only) visible at a glance:
+
+![vdocker ports](docs/ports.svg)
+
+### `vdocker info` — One-screen container summary
+
+Everything you would dig out of `docker inspect` (state, IP, ports, mounts,
+health, restart policy) in one readable screen — no `--format` or `jq` needed.
+For dead containers it explains **why** it died: decoded exit code, OOMKilled,
+daemon error, and the last log lines:
+
+![vdocker info](docs/info.svg)
+
+```bash
+vdocker info myapp-db-1          # running: uptime, health, network, mounts
+vdocker info myapp-worker-1      # dead: decoded exit code + last 10 log lines
+vdocker info myapp-db-1 --env    # include env vars (sensitive values masked)
+```
+
 ### `vdocker exec` — Open a shell inside a container
 
 Shortcut for `docker exec -it <container> <shell>`:
@@ -87,23 +111,9 @@ vdocker exec myapp-web-1        # bash, falls back to sh
 vdocker exec myapp-web-1 sh     # use a specific shell
 ```
 
-### `vdocker info` — One-screen container summary
-
-Everything you would dig out of `docker inspect` (state, IP, ports, mounts,
-health, restart policy) in one readable screen — no `--format` or `jq` needed:
-
-```bash
-vdocker info myapp-db-1          # running: uptime, health, network, mounts
-vdocker info myapp-worker-1      # dead: decoded exit code + last 10 log lines
-vdocker info myapp-db-1 --env    # include env vars (sensitive values masked)
-```
-
-For dead containers it explains **why** it died: the exit code is decoded
-(`137 = SIGKILL — killed by docker kill, OOM, or kill -9`), OOMKilled and the
-daemon error are shown, and the last log lines are included.
-
-Press `<Tab>` after `vdocker exec` to autocomplete running container names.
-Completion is set up automatically by the install script; otherwise enable it with:
+Press `<Tab>` after `vdocker exec` or `vdocker info` to autocomplete container
+names. Completion is set up automatically by the install script; otherwise
+enable it with:
 
 ```bash
 # bash
@@ -116,9 +126,10 @@ echo 'eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' >> ~/.zshrc
 
 | Option | Description |
 |--------|-------------|
-| `-a, --all` | Include stopped containers |
-| `--json` | Output as JSON |
-| `--unused` | Show unused images (`images` only) |
+| `-a, --all` | Include stopped containers (`ps`, `tree`) |
+| `--json` | Output as JSON (all commands) |
+| `--unused` | Show images without containers (`images` only) |
+| `--env` | Show env vars, sensitive values masked (`info` only) |
 
 ## Notes
 
