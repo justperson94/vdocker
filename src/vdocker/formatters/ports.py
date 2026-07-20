@@ -3,7 +3,6 @@ from __future__ import annotations
 from rich.table import Table
 from rich.text import Text
 
-from ..models import ContainerInfo
 from .base import BaseFormatter
 
 
