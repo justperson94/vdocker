@@ -51,7 +51,7 @@ class TreeFormatter(BaseFormatter):
                 None,
             )
             proj_header = Text(f"[{proj_label}]", style="bold cyan")
-            if working_dir:
+            if working_dir and self.console.width >= 80:
                 proj_header.append(f"  {working_dir}", style="dim")
             proj_node = root.add(proj_header)
 

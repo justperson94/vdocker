@@ -41,7 +41,7 @@ class VolumesFormatter(BaseFormatter):
                 (c.working_dir for vol, conts in items for c, _ in conts if c.working_dir),
                 None,
             )
-            if working_dir:
+            if working_dir and self.console.width >= 80:
                 header.append(f"  {working_dir}", style="dim")
 
             proj_tree = Tree(header)

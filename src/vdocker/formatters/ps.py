@@ -27,7 +27,7 @@ class PsFormatter(BaseFormatter):
             working_dir = next(
                 (c.working_dir for c in containers if c.working_dir), None
             )
-            if working_dir:
+            if working_dir and width >= 80:
                 header.append(f"  {working_dir}", style="dim")
             self.console.print(header)
 

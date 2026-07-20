@@ -127,10 +127,11 @@ def tree(show_all: bool, json_output: bool):
 
 
 def complete_container(ctx, param, incomplete):
-    """Shell completion: running container names starting with `incomplete`."""
+    """Shell completion: exec-able (running, not paused) container names."""
     try:
         from vdocker.docker_client import DockerCollector
-        names = [c.name for c in DockerCollector().get_containers()]
+        names = [c.name for c in DockerCollector().get_containers()
+                 if c.status == "running"]
     except Exception:
         return []
     return [n for n in names if n.startswith(incomplete)]
@@ -200,9 +201,14 @@ def exec_(container: str, shell: str | None):
         sys.exit(1)
     status = state.stdout.strip()
     if status != "running":
+        hints = {
+            "paused": f"Unpause it first: docker unpause {container}",
+            "restarting": f"It is crash-looping — check: vdocker info {container}",
+        }
+        hint = hints.get(status, f"Start it first: docker start {container}")
         err_console.print(
             f"[red]Error:[/red] Container '{container}' is not running "
-            f"(status: {status}). Start it first: docker start {container}"
+            f"(status: {status}). {hint}"
         )
         sys.exit(1)
 
