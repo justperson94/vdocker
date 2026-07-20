@@ -19,6 +19,7 @@ class DockerCollector:
         self._show_all = show_all
         self._containers: list[ContainerInfo] | None = None
         self._volume_sizes: dict[str, int] | None = None
+        self._df_thread = None
 
     @staticmethod
     def _connect() -> docker.DockerClient:
@@ -231,14 +232,23 @@ class DockerCollector:
         return [self._parse_container(c) for c in raw]
 
     def get_images(self) -> list[ImageInfo]:
-        raw = self._client.images.list()
+        # Use the raw list endpoint: images.list() inspects every image
+        # individually, which costs hundreds of ms on image-heavy hosts.
+        from datetime import datetime, timezone
+
+        raw = self._client.api.images()
         images = []
         for img in raw:
+            tags = [t for t in (img.get("RepoTags") or []) if t != "<none>:<none>"]
+            created = img.get("Created", 0)
+            if isinstance(created, (int, float)):
+                created = datetime.fromtimestamp(
+                    created, tz=timezone.utc).isoformat()
             images.append(ImageInfo(
-                id=img.id,
-                tags=img.tags or [],
-                size=img.attrs.get("Size", 0),
-                created=img.attrs.get("Created", ""),
+                id=img.get("Id", ""),
+                tags=tags,
+                size=img.get("Size", 0),
+                created=str(created),
             ))
         return images
 
@@ -255,19 +265,44 @@ class DockerCollector:
             ))
         return volumes
 
+    def prefetch_volume_sizes(self) -> None:
+        """Start the slow `docker system df` call in the background.
+
+        Uses its own client because requests sessions are not thread-safe.
+        """
+        import threading
+
+        if self._volume_sizes is not None or self._df_thread is not None:
+            return
+
+        def work():
+            self._prefetched_sizes = self._compute_volume_sizes(self._connect())
+
+        self._df_thread = threading.Thread(target=work, daemon=True)
+        self._df_thread.start()
+
+    @staticmethod
+    def _compute_volume_sizes(client: docker.DockerClient) -> dict[str, int]:
+        sizes: dict[str, int] = {}
+        try:
+            df = client.df()
+            for v in df.get("Volumes") or []:
+                usage = v.get("UsageData") or {}
+                size = usage.get("Size", -1)
+                if size >= 0:
+                    sizes[v["Name"]] = size
+        except Exception:
+            pass
+        return sizes
+
     def _get_volume_sizes(self) -> dict[str, int]:
         if self._volume_sizes is not None:
             return self._volume_sizes
-        try:
-            df = self._client.df()
-            self._volume_sizes = {}
-            for v in df.get("Volumes", []):
-                usage = v.get("UsageData", {})
-                size = usage.get("Size", -1)
-                if size >= 0:
-                    self._volume_sizes[v["Name"]] = size
-        except Exception:
-            self._volume_sizes = {}
+        if self._df_thread is not None:
+            self._df_thread.join()
+            self._volume_sizes = getattr(self, "_prefetched_sizes", {})
+        else:
+            self._volume_sizes = self._compute_volume_sizes(self._client)
         return self._volume_sizes
 
     def get_networks(self) -> list[NetworkInfo]:

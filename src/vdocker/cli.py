@@ -70,8 +70,9 @@ def images(json_output: bool, unused: bool):
 def volumes(json_output: bool):
     """Show volumes with mounted containers."""
     collector = get_collector(False)
-    all_volumes = collector.get_volumes()
+    collector.prefetch_volume_sizes()  # `docker system df` is slow — overlap it
     containers_by_volume = collector.containers_by_volume()
+    all_volumes = collector.get_volumes()  # joins the df prefetch
 
     if not all_volumes:
         console.print("[dim]No volumes found.[/dim]")
@@ -113,6 +114,7 @@ def ports(json_output: bool):
 def tree(show_all: bool, json_output: bool):
     """Show full relationship tree."""
     collector = get_collector(show_all)
+    collector.prefetch_volume_sizes()  # `docker system df` is slow — overlap it
     data = {
         "containers": collector.get_containers(),
         "images": collector.get_images(),
@@ -204,27 +206,26 @@ def exec_(container: str, shell: str | None):
         )
         sys.exit(1)
 
-    def shell_exists(name: str) -> bool:
-        result = subprocess.run(
+    if shell:
+        probe = subprocess.run(
             ["docker", "exec", container, "sh", "-c",
-             f"command -v {shlex.quote(name)}"],
+             f"command -v {shlex.quote(shell)}"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
-        return result.returncode == 0
-
-    if shell:
-        if not shell_exists(shell):
+        if probe.returncode != 0:
             err_console.print(
                 f"[red]Error:[/red] '{shell}' not found in container "
                 f"'{container}'."
             )
             sys.exit(1)
-        chosen = shell
+        argv = [shell]
     else:
-        chosen = "bash" if shell_exists("bash") else "sh"
+        # Single round-trip: pick bash inside the container, fall back to sh
+        argv = ["sh", "-c",
+                "command -v bash >/dev/null 2>&1 && exec bash || exec sh"]
 
     import os
-    os.execvp("docker", ["docker", "exec", "-it", container, chosen])
+    os.execvp("docker", ["docker", "exec", "-it", container, *argv])
 
 
 if __name__ == "__main__":
