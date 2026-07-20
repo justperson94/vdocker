@@ -15,10 +15,32 @@ from .models import (
 
 class DockerCollector:
     def __init__(self, show_all: bool = False):
-        self._client = docker.from_env()
+        self._client = self._connect()
         self._show_all = show_all
         self._containers: list[ContainerInfo] | None = None
         self._volume_sizes: dict[str, int] | None = None
+
+    @staticmethod
+    def _connect() -> docker.DockerClient:
+        """Connect to the daemon the docker CLI would talk to.
+
+        docker-py's from_env() only reads DOCKER_HOST and ignores the CLI
+        context store, so `docker context use remote` would silently leave
+        vdocker looking at a different daemon than docker itself.
+        """
+        import os
+        if not os.environ.get("DOCKER_HOST"):
+            try:
+                from docker.context import ContextAPI
+                ctx = ContextAPI.get_current_context()
+                if ctx and ctx.name != "default" and ctx.Host:
+                    return docker.DockerClient(
+                        base_url=ctx.Host,
+                        use_ssh_client=ctx.Host.startswith("ssh://"),
+                    )
+            except Exception:
+                pass  # fall back to the default resolution below
+        return docker.from_env()
 
     @staticmethod
     def _parse_port_bindings(ports_dict: dict) -> list[PortBinding]:
