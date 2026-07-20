@@ -18,6 +18,14 @@ class NetworkAttachment:
 
 
 @dataclass(frozen=True)
+class PortBinding:
+    host_ip: str  # "0.0.0.0", "127.0.0.1", ...
+    host_port: int
+    container_port: int
+    protocol: str  # "tcp" / "udp"
+
+
+@dataclass(frozen=True)
 class ContainerInfo:
     id: str
     name: str
@@ -33,6 +41,7 @@ class ContainerInfo:
     started_at: str | None
     mounts: list[MountInfo] = field(default_factory=list)
     networks: list[NetworkAttachment] = field(default_factory=list)
+    port_bindings: list[PortBinding] = field(default_factory=list)
 
 
 @dataclass(frozen=True)

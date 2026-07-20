@@ -8,6 +8,7 @@ from .models import (
     MountInfo,
     NetworkAttachment,
     NetworkInfo,
+    PortBinding,
     VolumeInfo,
 )
 
@@ -20,21 +21,36 @@ class DockerCollector:
         self._volume_sizes: dict[str, int] | None = None
 
     @staticmethod
-    def _format_ports(ports_dict: dict) -> str:
-        if not ports_dict:
-            return ""
+    def _parse_port_bindings(ports_dict: dict) -> list[PortBinding]:
+        """Structured host-exposed port bindings, IPv6 duplicates dropped."""
+        bindings = []
+        for container_port_proto, raw in (ports_dict or {}).items():
+            if not raw:
+                continue
+            port_str, _, proto = container_port_proto.rpartition("/")
+            for b in raw:
+                host_ip = b.get("HostIp", "0.0.0.0") or "0.0.0.0"
+                host_port = b.get("HostPort", "")
+                if host_ip in ("::", "::1") or not host_port:
+                    continue  # skip IPv6 duplicates
+                bindings.append(PortBinding(
+                    host_ip=host_ip,
+                    host_port=int(host_port),
+                    container_port=int(port_str),
+                    protocol=proto,
+                ))
+        bindings.sort(key=lambda b: b.host_port)
+        return bindings
+
+    @staticmethod
+    def _format_ports(bindings: list[PortBinding]) -> str:
         parts = []
-        for container_port, bindings in ports_dict.items():
-            if bindings:
-                for b in bindings:
-                    host_ip = b.get("HostIp", "0.0.0.0")
-                    host_port = b.get("HostPort", "")
-                    if host_ip == "::" or host_ip == "::1":
-                        continue  # skip IPv6 duplicates
-                    if host_ip == "0.0.0.0":
-                        parts.append(f"{host_port}->{container_port}")
-                    else:
-                        parts.append(f"{host_ip}:{host_port}->{container_port}")
+        for b in bindings:
+            proto = f"/{b.protocol}" if b.protocol else ""
+            if b.host_ip == "0.0.0.0":
+                parts.append(f"{b.host_port}->{b.container_port}{proto}")
+            else:
+                parts.append(f"{b.host_ip}:{b.host_port}->{b.container_port}{proto}")
         return ", ".join(parts)
 
     @staticmethod
@@ -66,8 +82,10 @@ class DockerCollector:
         command = " ".join(cmd) if cmd else ""
 
         # Ports
-        ports_dict = c.attrs.get("NetworkSettings", {}).get("Ports", {}) or {}
-        ports = DockerCollector._format_ports(ports_dict)
+        port_bindings = DockerCollector._parse_port_bindings(
+            c.attrs.get("NetworkSettings", {}).get("Ports", {}) or {}
+        )
+        ports = DockerCollector._format_ports(port_bindings)
 
         return ContainerInfo(
             id=c.id,
@@ -84,6 +102,7 @@ class DockerCollector:
             started_at=c.attrs.get("State", {}).get("StartedAt"),
             mounts=mounts,
             networks=networks,
+            port_bindings=port_bindings,
         )
 
     @staticmethod
@@ -113,7 +132,9 @@ class DockerCollector:
             {"name": name, "ip": data.get("IPAddress", "")}
             for name, data in (net_settings.get("Networks", {}) or {}).items()
         ]
-        ports = self._format_ports(net_settings.get("Ports", {}) or {})
+        ports = self._format_ports(
+            self._parse_port_bindings(net_settings.get("Ports", {}) or {})
+        )
 
         mounts = []
         for m in attrs.get("Mounts", []):
@@ -268,32 +289,22 @@ class DockerCollector:
         seen: set[tuple] = set()
         rows = []
         for c in self.get_containers():
-            raw = self._client.containers.get(c.id)
-            raw_ports = raw.attrs.get("NetworkSettings", {}).get("Ports", {}) or {}
-            net_names = [n.network_name for n in c.networks]
-            primary_net = net_names[0] if net_names else ""
-
-            for container_port_proto, bindings in raw_ports.items():
-                if not bindings:
+            primary_net = c.networks[0].network_name if c.networks else ""
+            for b in c.port_bindings:
+                key = (b.host_ip, b.host_port, b.container_port, b.protocol, c.name)
+                if key in seen:
                     continue
-                port_str, proto = container_port_proto.rsplit("/", 1)
-                for b in bindings:
-                    host_port = b.get("HostPort", "")
-                    if not host_port:
-                        continue
-                    key = (int(host_port), int(port_str), proto, c.name)
-                    if key in seen:
-                        continue
-                    seen.add(key)
-                    rows.append({
-                        "host_port": int(host_port),
-                        "container_port": int(port_str),
-                        "protocol": proto,
-                        "container_name": c.name,
-                        "project": c.project,
-                        "image": c.image_name,
-                        "network": primary_net,
-                    })
+                seen.add(key)
+                rows.append({
+                    "bind": b.host_ip,
+                    "host_port": b.host_port,
+                    "container_port": b.container_port,
+                    "protocol": b.protocol,
+                    "container_name": c.name,
+                    "project": c.project,
+                    "image": c.image_name,
+                    "network": primary_net,
+                })
         rows.sort(key=lambda r: r["host_port"])
         return rows
 

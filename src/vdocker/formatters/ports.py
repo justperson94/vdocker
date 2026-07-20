@@ -21,6 +21,7 @@ class PortsFormatter(BaseFormatter):
             header_style="dim",
         )
         table.add_column("HOST PORT", no_wrap=True, style="cyan bold")
+        table.add_column("BIND", no_wrap=True)
         table.add_column("CONTAINER PORT", no_wrap=True, style="dim")
         table.add_column("PROTO", no_wrap=True, style="dim")
         table.add_column("CONTAINER", no_wrap=True)
@@ -33,8 +34,14 @@ class PortsFormatter(BaseFormatter):
             if row["project"]:
                 container_cell.append(f"  [{row['project']}]", style="dim")
 
+            bind = row.get("bind", "0.0.0.0")
+            # 0.0.0.0 (open to the world) is the unremarkable default;
+            # a specific bind address is what deserves attention.
+            bind_cell = Text(bind, style="dim" if bind == "0.0.0.0" else "yellow")
+
             table.add_row(
                 str(row["host_port"]),
+                bind_cell,
                 str(row["container_port"]),
                 row["protocol"],
                 container_cell,
