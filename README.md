@@ -86,6 +86,21 @@ vdocker exec myapp-web-1        # bash, falls back to sh
 vdocker exec myapp-web-1 sh     # use a specific shell
 ```
 
+### `vdocker info` — One-screen container summary
+
+Everything you would dig out of `docker inspect` (state, IP, ports, mounts,
+health, restart policy) in one readable screen — no `--format` or `jq` needed:
+
+```bash
+vdocker info myapp-db-1          # running: uptime, health, network, mounts
+vdocker info myapp-worker-1      # dead: decoded exit code + last 10 log lines
+vdocker info myapp-db-1 --env    # include env vars (sensitive values masked)
+```
+
+For dead containers it explains **why** it died: the exit code is decoded
+(`137 = SIGKILL — killed by docker kill, OOM, or kill -9`), OOMKilled and the
+daemon error are shown, and the last log lines are included.
+
 Press `<Tab>` after `vdocker exec` to autocomplete running container names.
 Completion is set up automatically by the install script; otherwise enable it with:
 
