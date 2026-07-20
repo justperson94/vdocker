@@ -60,6 +60,42 @@ def format_uptime(started_at: str | None, status: str) -> str:
         return status.capitalize()
 
 
+_EXIT_CODE_HINTS = {
+    0: "success",
+    1: "application error",
+    125: "docker: container failed to run",
+    126: "command found but not executable",
+    127: "command not found",
+    255: "exit status out of range",
+}
+
+_SIGNAL_HINTS = {
+    "SIGKILL": "killed by docker kill, OOM, or kill -9",
+    "SIGTERM": "terminated by docker stop",
+    "SIGSEGV": "segmentation fault",
+    "SIGINT": "interrupted (Ctrl+C)",
+    "SIGABRT": "aborted",
+}
+
+
+def describe_exit_code(code: int, oom_killed: bool = False) -> str:
+    """Human-readable meaning of a container exit code."""
+    if oom_killed:
+        return "SIGKILL — killed by the OOM killer (out of memory)"
+    if code in _EXIT_CODE_HINTS:
+        return _EXIT_CODE_HINTS[code]
+    if 128 < code < 165:
+        signum = code - 128
+        try:
+            import signal
+            name = signal.Signals(signum).name
+        except ValueError:
+            return f"fatal signal {signum}"
+        hint = _SIGNAL_HINTS.get(name)
+        return f"{name} — {hint}" if hint else name
+    return ""
+
+
 STATUS_STYLES = {
     "running": "green",
     "exited": "red",

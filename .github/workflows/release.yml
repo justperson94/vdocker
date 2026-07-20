@@ -37,6 +37,7 @@ jobs:
             --hidden-import vdocker.formatters.volumes \
             --hidden-import vdocker.formatters.networks \
             --hidden-import vdocker.formatters.ports \
+            --hidden-import vdocker.formatters.info \
             --hidden-import vdocker.formatters.tree \
             src/vdocker/cli.py
           tar czf vdocker-linux-amd64.tar.gz -C dist vdocker
@@ -72,6 +73,7 @@ jobs:
             --hidden-import vdocker.formatters.volumes \
             --hidden-import vdocker.formatters.networks \
             --hidden-import vdocker.formatters.ports \
+            --hidden-import vdocker.formatters.info \
             --hidden-import vdocker.formatters.tree \
             src/vdocker/cli.py
           tar czf vdocker-darwin-amd64.tar.gz -C dist vdocker

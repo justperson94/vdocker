@@ -86,6 +86,95 @@ class DockerCollector:
             networks=networks,
         )
 
+    @staticmethod
+    def _clean_ts(ts: str | None) -> str | None:
+        """Docker uses 0001-01-01 as 'never'; treat it as absent."""
+        if not ts or ts.startswith("0001-"):
+            return None
+        return ts
+
+    def get_container_detail(self, name_or_id: str) -> dict:
+        """Full one-container summary for `vdocker info`."""
+        c = self._client.containers.get(name_or_id)
+        attrs = c.attrs
+        state = attrs.get("State", {}) or {}
+        config = attrs.get("Config", {}) or {}
+        host = attrs.get("HostConfig", {}) or {}
+        labels = config.get("Labels", {}) or {}
+        net_settings = attrs.get("NetworkSettings", {}) or {}
+
+        image_tags = c.image.tags or []
+        image_name = image_tags[0] if image_tags else c.image.short_id
+
+        cmd = config.get("Cmd")
+        command = " ".join(cmd) if cmd else ""
+
+        networks = [
+            {"name": name, "ip": data.get("IPAddress", "")}
+            for name, data in (net_settings.get("Networks", {}) or {}).items()
+        ]
+        ports = self._format_ports(net_settings.get("Ports", {}) or {})
+
+        mounts = []
+        for m in attrs.get("Mounts", []):
+            mounts.append({
+                "type": m.get("Type", ""),
+                "source": m.get("Name") or m.get("Source", ""),
+                "destination": m.get("Destination", ""),
+                "rw": m.get("RW", True),
+            })
+
+        policy = host.get("RestartPolicy", {}) or {}
+
+        health = state.get("Health")
+        health_info = None
+        if health:
+            probes = health.get("Log") or []
+            last_output = (probes[-1].get("Output") or "").strip() if probes else ""
+            test = (config.get("Healthcheck", {}) or {}).get("Test") or []
+            test_str = " ".join(t for t in test if t not in ("CMD-SHELL", "CMD", "NONE"))
+            health_info = {
+                "status": health.get("Status", ""),
+                "failing_streak": health.get("FailingStreak", 0),
+                "test": test_str,
+                "last_output": last_output,
+            }
+
+        status = state.get("Status", "")
+        last_logs = None
+        if status != "running":
+            try:
+                last_logs = c.logs(tail=10).decode("utf-8", errors="replace").rstrip()
+            except Exception:
+                last_logs = None
+
+        return {
+            "name": c.name,
+            "id": c.id,
+            "status": status,
+            "image": image_name,
+            "command": command,
+            "created": attrs.get("Created", ""),
+            "started_at": self._clean_ts(state.get("StartedAt")),
+            "finished_at": self._clean_ts(state.get("FinishedAt")),
+            "exit_code": state.get("ExitCode"),
+            "oom_killed": state.get("OOMKilled", False),
+            "error": state.get("Error", ""),
+            "restart_count": attrs.get("RestartCount", 0),
+            "restart_policy": policy.get("Name") or "no",
+            "restart_policy_max": policy.get("MaximumRetryCount", 0),
+            "memory_limit": host.get("Memory", 0),
+            "project": labels.get("com.docker.compose.project"),
+            "service": labels.get("com.docker.compose.service"),
+            "working_dir": labels.get("com.docker.compose.project.working_dir"),
+            "networks": networks,
+            "ports": ports,
+            "mounts": mounts,
+            "health": health_info,
+            "env": config.get("Env") or [],
+            "last_logs": last_logs,
+        }
+
     def get_containers(self) -> list[ContainerInfo]:
         if self._containers is not None:
             return self._containers

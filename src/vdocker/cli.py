@@ -131,6 +131,42 @@ def complete_container(ctx, param, incomplete):
     return [n for n in names if n.startswith(incomplete)]
 
 
+def complete_any_container(ctx, param, incomplete):
+    """Shell completion: all container names, including stopped ones."""
+    try:
+        from vdocker.docker_client import DockerCollector
+        names = [c.name for c in DockerCollector(show_all=True).get_containers()]
+    except Exception:
+        return []
+    return [n for n in names if n.startswith(incomplete)]
+
+
+@cli.command()
+@click.argument("container", shell_complete=complete_any_container)
+@click.option("--env", "show_env", is_flag=True,
+              help="Show environment variables (sensitive values masked)")
+@click.option("--json", "json_output", is_flag=True, help="Output as JSON")
+def info(container: str, show_env: bool, json_output: bool):
+    """Show a one-screen summary of a container.
+
+    Includes state, network, mounts — and for dead containers, the decoded
+    exit code, OOM status, and last log lines so you can see why it died.
+    """
+    collector = get_collector(False)
+    try:
+        detail = collector.get_container_detail(container)
+    except Exception as e:
+        from docker.errors import NotFound
+        if isinstance(e, NotFound):
+            err_console.print(f"[red]Error:[/red] No such container: '{container}'")
+        else:
+            err_console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+    from vdocker.formatters.info import InfoFormatter
+    InfoFormatter(console, json_output, show_env=show_env).render(detail)
+
+
 @cli.command(name="exec")
 @click.argument("container", shell_complete=complete_container)
 @click.argument("shell", required=False)
