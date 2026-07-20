@@ -24,7 +24,7 @@ def get_collector(show_all: bool):
         sys.exit(1)
 
 
-@click.group()
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(package_name="vdocker", prog_name="vdocker")
 def cli():
     """vdocker — Visualize Docker objects and their relationships."""
