@@ -96,13 +96,15 @@ class DockerCollector:
                 ip_address=net_data.get("IPAddress", ""),
             ))
 
-        image_tags = c.image.tags if c.image.tags else []
-        image_name = image_tags[0] if image_tags else c.image.short_id
-
-        # Command: from Config.Cmd or Config.Entrypoint
+        # Read image/command from attrs directly: the c.image property makes
+        # an extra API call per container and raises ImageNotFound when the
+        # image has been deleted out from under a container.
         config = c.attrs.get("Config", {})
-        cmd = config.get("Cmd")
-        command = " ".join(cmd) if cmd else ""
+        image_name = config.get("Image") or c.attrs.get("Image", "")[:19]
+
+        # docker ps shows entrypoint + cmd combined; do the same
+        parts = (config.get("Entrypoint") or []) + (config.get("Cmd") or [])
+        command = " ".join(parts)
 
         # Ports
         port_bindings = DockerCollector._parse_port_bindings(
@@ -114,7 +116,7 @@ class DockerCollector:
             id=c.id,
             name=c.name,
             status=c.status,
-            image_id=c.image.id,
+            image_id=c.attrs.get("Image", ""),
             image_name=image_name,
             command=command,
             created=c.attrs.get("Created", ""),
@@ -145,11 +147,10 @@ class DockerCollector:
         labels = config.get("Labels", {}) or {}
         net_settings = attrs.get("NetworkSettings", {}) or {}
 
-        image_tags = c.image.tags or []
-        image_name = image_tags[0] if image_tags else c.image.short_id
+        image_name = config.get("Image") or attrs.get("Image", "")[:19]
 
-        cmd = config.get("Cmd")
-        command = " ".join(cmd) if cmd else ""
+        parts = (config.get("Entrypoint") or []) + (config.get("Cmd") or [])
+        command = " ".join(parts)
 
         networks = [
             {"name": name, "ip": data.get("IPAddress", "")}
