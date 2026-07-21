@@ -53,7 +53,9 @@ class PortsFormatter(BaseFormatter):
         container_count = len({r["container_name"] for r in data})
         self.console.print()
         self.console.print(
-            Text(f"{len(data)} ports in use by {container_count} containers", style="dim")
+            Text(f"{len(data)} port{'s' if len(data) != 1 else ''} in use by "
+                 f"{container_count} container{'s' if container_count != 1 else ''}",
+                 style="dim")
         )
 
     def render_json(self, data: list[dict]) -> None:

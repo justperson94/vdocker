@@ -26,6 +26,10 @@ class TreeFormatter(BaseFormatter):
         for c in containers:
             proj = projects.setdefault(c.project, {})
             proj.setdefault(c.service, []).append(c)
+
+        # "Unused" must consider every container (stopped ones included),
+        # not just the ones being displayed
+        for c in data.get("usage_containers") or containers:
             used_image_ids.add(c.image_id)
             for m in c.mounts:
                 if m.type == "volume" and m.name:

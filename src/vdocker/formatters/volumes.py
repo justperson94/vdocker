@@ -24,8 +24,10 @@ class VolumesFormatter(BaseFormatter):
             if not containers:
                 unmounted.append(volume)
                 continue
-            # Determine project from the first container
-            project = containers[0][0].project
+            # Deterministic project pick (daemon list order changes as
+            # containers are recreated): first project name alphabetically
+            named = sorted({c.project for c, _ in containers if c.project})
+            project = named[0] if named else None
             groups.setdefault(project, []).append((volume, containers))
 
         # Sort project keys: named projects first, then None (standalone)

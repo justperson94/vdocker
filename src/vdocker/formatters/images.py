@@ -8,6 +8,18 @@ from ..utils import format_size, status_style, status_text
 from .base import BaseFormatter
 
 
+def _short_id(image_id: str) -> str:
+    return image_id.removeprefix("sha256:")[:12]
+
+
+def _visible(images, containers_by_image, show_unused):
+    """Images worth showing: tagged, or still referenced by a container."""
+    out = [img for img in images if img.tags or img.id in containers_by_image]
+    if not show_unused:
+        out = [img for img in out if img.id in containers_by_image]
+    return out
+
+
 class ImagesFormatter(BaseFormatter):
     def __init__(self, *args, show_unused: bool = False, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,10 +30,7 @@ class ImagesFormatter(BaseFormatter):
         data: tuple[list[ImageInfo], dict[str, list[ContainerInfo]]],
     ) -> None:
         images, containers_by_image = data
-
-        # Filter: only images with containers, unless show_unused
-        if not self.show_unused:
-            images = [img for img in images if img.id in containers_by_image]
+        images = _visible(images, containers_by_image, self.show_unused)
 
         if not images:
             self.console.print("[dim]No images with containers found. Use --unused to show all.[/dim]")
@@ -29,14 +38,11 @@ class ImagesFormatter(BaseFormatter):
 
         def sort_key(img: ImageInfo) -> tuple[bool, str]:
             has_containers = img.id in containers_by_image
-            tag = img.tags[0] if img.tags else "~" + img.id[:12]
+            tag = img.tags[0] if img.tags else "~" + _short_id(img.id)
             return (not has_containers, tag)
 
         for i, image in enumerate(sorted(images, key=sort_key)):
-            if not image.tags and image.id not in containers_by_image:
-                continue
-
-            tag = image.tags[0] if image.tags else image.id[:12]
+            tag = image.tags[0] if image.tags else _short_id(image.id)
             label = Text()
             label.append(tag, style="bold")
             label.append(f" ({format_size(image.size)})", style="dim")
@@ -65,8 +71,7 @@ class ImagesFormatter(BaseFormatter):
         from dataclasses import asdict
 
         images, containers_by_image = data
-        if not self.show_unused:
-            images = [img for img in images if img.id in containers_by_image]
+        images = _visible(images, containers_by_image, self.show_unused)
         output = []
         for img in images:
             entry = asdict(img)

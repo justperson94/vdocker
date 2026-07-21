@@ -74,6 +74,8 @@ class PsFormatter(BaseFormatter):
 
         output = {}
         for project, containers in data.items():
-            key = project or "standalone"
+            key = project if project is not None else "standalone"
+            if project is None and "standalone" in data:
+                key = "(standalone)"  # avoid clobbering a real project
             output[key] = [asdict(c) for c in containers]
         self.console.print_json(json.dumps(output, default=str))

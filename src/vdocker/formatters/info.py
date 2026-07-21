@@ -62,7 +62,10 @@ class InfoFormatter(BaseFormatter):
             label = format_uptime(d["started_at"], d["status"])
             if health:
                 label += f" ({health['status']})"
-            style = "red" if health and health["status"] == "unhealthy" else "green"
+            style = "green"
+            if health:
+                style = {"healthy": "green",
+                         "unhealthy": "red"}.get(health["status"], "yellow")
             header.append(label, style=style)
         else:
             stopped = d["status"] in ("exited", "dead", "restarting")
