@@ -198,7 +198,10 @@ def exec_(container: str, shell: str | None):
     )
     if state.returncode != 0:
         stderr = state.stderr.strip()
-        if "no such" in stderr.lower():
+        # "no such object/container" = bad name; anything else (e.g. a
+        # dial error, whose text also contains "no such file") = daemon issue
+        low = stderr.lower()
+        if "no such object" in low or "no such container" in low:
             err_console.print(
                 f"[red]Error:[/red] No such container: '{container}'")
         else:
