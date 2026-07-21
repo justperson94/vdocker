@@ -9,13 +9,12 @@ console = Console()
 err_console = Console(stderr=True)
 
 
+json_option = click.option("--json", "json_output", is_flag=True, help="Output as JSON")
+
+
 def common_options(f):
     f = click.option("-a", "--all", "show_all", is_flag=True, help="Include stopped containers")(f)
-    f = click.option("--json", "json_output", is_flag=True, help="Output as JSON")(f)
-    return f
-
-
-json_option = click.option("--json", "json_output", is_flag=True, help="Output as JSON")
+    return json_option(f)
 
 
 def friendly_errors(f):
@@ -43,7 +42,10 @@ def get_collector(show_all: bool):
         from vdocker.docker_client import DockerCollector
         return DockerCollector(show_all=show_all)
     except Exception as e:
-        err_console.print(f"[red]Error:[/red] Cannot connect to Docker. Is Docker running?\n{e}")
+        from rich.markup import escape
+        err_console.print(
+            f"[red]Error:[/red] Cannot connect to Docker. "
+            f"Is Docker running?\n{escape(str(e))}")
         sys.exit(1)
 
 
