@@ -64,3 +64,18 @@ class TestFormatPorts:
             PortBinding("0.0.0.0", 443, 443, "tcp"),
         ])
         assert s == "80->80/tcp, 443->443/tcp"
+
+
+class TestIPv6OnlyBindings:
+    def test_ipv6_only_publish_is_kept(self):
+        # docker run -p '[::1]:8080:80' — no IPv4 twin exists
+        result = parse({"80/tcp": [{"HostIp": "::1", "HostPort": "8080"}]})
+        assert len(result) == 1
+        assert result[0].host_ip == "::1"
+
+    def test_dual_stack_still_deduplicated(self):
+        result = parse({"80/tcp": [
+            {"HostIp": "0.0.0.0", "HostPort": "8080"},
+            {"HostIp": "::", "HostPort": "8080"},
+        ]})
+        assert [b.host_ip for b in result] == ["0.0.0.0"]

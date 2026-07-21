@@ -19,34 +19,55 @@ class DockerCollector:
         self._show_all = show_all
         self._containers: list[ContainerInfo] | None = None
         self._volume_sizes: dict[str, int] | None = None
+        self._all_containers: list[ContainerInfo] | None = None
         self._df_thread = None
 
     @staticmethod
     def _connect() -> docker.DockerClient:
         """Connect to the daemon the docker CLI would talk to.
 
-        docker-py's from_env() only reads DOCKER_HOST and ignores the CLI
-        context store, so `docker context use remote` would silently leave
-        vdocker looking at a different daemon than docker itself.
+        docker-py's from_env() reads neither the CLI context store nor
+        DOCKER_CONTEXT, so `docker context use remote` (or DOCKER_CONTEXT)
+        would silently leave vdocker on a different daemon than docker.
+        Precedence mirrors the docker CLI: DOCKER_CONTEXT > DOCKER_HOST >
+        the context selected via `docker context use`.
         """
         import os
-        if not os.environ.get("DOCKER_HOST"):
-            try:
-                from docker.context import ContextAPI
+
+        ctx = None
+        ctx_name = os.environ.get("DOCKER_CONTEXT")
+        try:
+            from docker.context import ContextAPI
+            if ctx_name:
+                ctx = ContextAPI.get_context(ctx_name)
+                if ctx is None:
+                    raise docker.errors.DockerException(
+                        f"docker context '{ctx_name}' not found")
+            elif not os.environ.get("DOCKER_HOST"):
                 ctx = ContextAPI.get_current_context()
-                if ctx and ctx.name != "default" and ctx.Host:
-                    return docker.DockerClient(
-                        base_url=ctx.Host,
-                        use_ssh_client=ctx.Host.startswith("ssh://"),
-                    )
-            except Exception:
-                pass  # fall back to the default resolution below
+        except docker.errors.DockerException:
+            raise
+        except Exception:
+            ctx = None  # unreadable context store — use default resolution
+
+        if ctx is not None and ctx.name != "default" and ctx.Host:
+            # No silent fallback from here: quietly using a different
+            # daemon than the docker CLI is worse than a clear error.
+            return docker.DockerClient(
+                base_url=ctx.Host,
+                tls=getattr(ctx, "TLSConfig", None) or False,
+                use_ssh_client=ctx.Host.startswith("ssh://"),
+            )
         return docker.from_env()
 
     @staticmethod
     def _parse_port_bindings(ports_dict: dict) -> list[PortBinding]:
-        """Structured host-exposed port bindings, IPv6 duplicates dropped."""
-        bindings = []
+        """Structured host-exposed port bindings.
+
+        IPv6 rows are dropped only when an IPv4 row covers the same mapping
+        (the common dual-stack duplicate); an IPv6-only publish is kept.
+        """
+        v4, v6 = [], []
         for container_port_proto, raw in (ports_dict or {}).items():
             if not raw:
                 continue
@@ -56,14 +77,21 @@ class DockerCollector:
             for b in raw:
                 host_ip = b.get("HostIp", "0.0.0.0") or "0.0.0.0"
                 host_port = b.get("HostPort", "")
-                if host_ip in ("::", "::1") or not host_port:
-                    continue  # skip IPv6 duplicates
-                bindings.append(PortBinding(
+                if not host_port:
+                    continue
+                binding = PortBinding(
                     host_ip=host_ip,
                     host_port=int(host_port),
                     container_port=int(port_str),
                     protocol=proto,
-                ))
+                )
+                (v6 if host_ip in ("::", "::1") else v4).append(binding)
+
+        covered = {(b.host_port, b.container_port, b.protocol) for b in v4}
+        bindings = v4 + [
+            b for b in v6
+            if (b.host_port, b.container_port, b.protocol) not in covered
+        ]
         bindings.sort(key=lambda b: b.host_port)
         return bindings
 
@@ -225,14 +253,19 @@ class DockerCollector:
     def get_containers(self) -> list[ContainerInfo]:
         if self._containers is not None:
             return self._containers
-        raw = self._client.containers.list(all=self._show_all)
+        raw = self._client.containers.list(
+            all=self._show_all, ignore_removed=True)
         self._containers = [self._parse_container(c) for c in raw]
         return self._containers
 
     def get_all_containers(self) -> list[ContainerInfo]:
         """Always fetch all containers regardless of show_all flag."""
-        raw = self._client.containers.list(all=True)
-        return [self._parse_container(c) for c in raw]
+        if self._show_all and self._containers is not None:
+            return self._containers
+        if self._all_containers is None:
+            raw = self._client.containers.list(all=True, ignore_removed=True)
+            self._all_containers = [self._parse_container(c) for c in raw]
+        return self._all_containers
 
     def get_images(self) -> list[ImageInfo]:
         # Use the raw list endpoint: images.list() inspects every image
@@ -279,7 +312,18 @@ class DockerCollector:
             return
 
         def work():
-            self._prefetched_sizes = self._compute_volume_sizes(self._connect())
+            client = None
+            try:
+                client = self._connect()
+                self._prefetched_sizes = self._compute_volume_sizes(client)
+            except Exception:
+                self._prefetched_sizes = {}
+            finally:
+                if client is not None:
+                    try:
+                        client.close()
+                    except Exception:
+                        pass
 
         self._df_thread = threading.Thread(target=work, daemon=True)
         self._df_thread.start()
