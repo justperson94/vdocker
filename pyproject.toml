@@ -24,4 +24,4 @@ dependencies = [
 vdocker = "vdocker.cli:cli"
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0", "pytest-mock"]
+dev = ["pytest>=7.0", "pytest-mock", "ruff>=0.5"]

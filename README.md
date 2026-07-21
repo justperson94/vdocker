@@ -127,7 +127,7 @@ echo 'eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' >> ~/.zshrc
 | Option | Description |
 |--------|-------------|
 | `-a, --all` | Include stopped containers (`ps`, `tree`) |
-| `--json` | Output as JSON (all commands) |
+| `--json` | Output as JSON (all commands except `exec`) |
 | `--unused` | Show images without containers (`images` only) |
 | `--env` | Show env vars, sensitive values masked (`info` only) |
 

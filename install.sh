@@ -5,6 +5,8 @@
 #
 set -eu
 
+main() {
+
 REPO="justperson94/vdocker"
 BINARY="vdocker"
 
@@ -75,9 +77,14 @@ tar xzf "$tarball" -C "$tmp_dir" || err "Failed to extract $asset"
 [ -x "${tmp_dir}/${BINARY}/${BINARY}" ] || err "Unexpected archive layout"
 
 info "Installing to ${lib_dir}"
-$sudo_cmd rm -rf "$lib_dir"
+# Stage next to the final location first so the old install is only
+# removed once the replacement is fully in place.
+staged="${lib_dir}.new"
 $sudo_cmd mkdir -p "$(dirname "$lib_dir")"
-$sudo_cmd mv "${tmp_dir}/${BINARY}" "$lib_dir"
+$sudo_cmd rm -rf "$staged"
+$sudo_cmd mv "${tmp_dir}/${BINARY}" "$staged"
+$sudo_cmd rm -rf "$lib_dir"
+$sudo_cmd mv "$staged" "$lib_dir"
 $sudo_cmd ln -sf "${lib_dir}/${BINARY}" "${install_dir}/${BINARY}"
 info "Linked ${install_dir}/${BINARY}"
 
@@ -89,11 +96,13 @@ esac
 
 # --- Shell completion (tab-complete container names for `vdocker exec`) ---
 setup_completion() {
+    [ -n "${HOME:-}" ] || return 0
     cur_shell="$(basename "${SHELL:-}")"
+    # the line guards itself so shells don't error if vdocker leaves PATH
     case "$cur_shell" in
-        bash) rc="${HOME}/.bashrc"; line='eval "$(_VDOCKER_COMPLETE=bash_source vdocker)"' ;;
-        zsh)  rc="${HOME}/.zshrc";  line='eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' ;;
-        *)    return ;;  # unsupported shell — skip silently
+        bash) rc="${HOME}/.bashrc"; line='command -v vdocker >/dev/null 2>&1 && eval "$(_VDOCKER_COMPLETE=bash_source vdocker)"' ;;
+        zsh)  rc="${HOME}/.zshrc";  line='command -v vdocker >/dev/null 2>&1 && eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' ;;
+        *)    return 0 ;;  # unsupported shell — skip silently
     esac
 
     # Already configured?
@@ -111,3 +120,8 @@ setup_completion() {
 setup_completion
 
 info "Done! Run '${BINARY} --help' to get started."
+
+}
+
+# curl | sh safety: nothing executes until the script fully downloads
+main "$@"
