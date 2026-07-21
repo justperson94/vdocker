@@ -197,7 +197,14 @@ def exec_(container: str, shell: str | None):
         capture_output=True, text=True,
     )
     if state.returncode != 0:
-        err_console.print(f"[red]Error:[/red] No such container: '{container}'")
+        stderr = state.stderr.strip()
+        if "no such" in stderr.lower():
+            err_console.print(
+                f"[red]Error:[/red] No such container: '{container}'")
+        else:
+            # e.g. the daemon is unreachable — don't blame the container
+            detail = stderr.splitlines()[-1] if stderr else "unknown docker error"
+            err_console.print(f"[red]Error:[/red] {detail}")
         sys.exit(1)
     status = state.stdout.strip()
     if status != "running":

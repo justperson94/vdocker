@@ -13,7 +13,9 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "docker>=7.0",
+    # vdocker relies on docker-py internals (api.images, ContextAPI),
+    # so guard against a breaking major release
+    "docker>=7.0,<8",
     "rich>=13.0",
     "click>=8.0",
 ]

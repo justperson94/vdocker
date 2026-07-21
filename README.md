@@ -135,6 +135,17 @@ echo 'eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' >> ~/.zshrc
 
 - The working directory path shown next to project names (e.g. `[myapp]  /home/user/projects/myapp`) is only available for containers started via `docker compose up`. Standalone containers (`docker run`) do not have this information.
 
+## Uninstall
+
+```bash
+# installed via install.sh (adjust prefix if you used /usr/local)
+rm -rf ~/.local/lib/vdocker ~/.local/bin/vdocker
+# optional: remove the "vdocker shell completion" line from ~/.bashrc or ~/.zshrc
+
+# installed via Homebrew
+brew uninstall vdocker
+```
+
 ## Requirements
 
 - Docker running
