@@ -88,3 +88,26 @@ class TestStatusStyle:
 
     def test_unknown(self):
         assert status_style("whatever") == "white"
+
+
+class TestNanosecondTimestamps:
+    def test_docker_nanosecond_fraction_parses(self):
+        # Docker emits 7-9 fractional digits; Python 3.10 fromisoformat
+        # rejects them, which used to blank every CREATED/uptime value
+        ts = (datetime.now(timezone.utc) - timedelta(hours=3, minutes=1)).strftime(
+            "%Y-%m-%dT%H:%M:%S") + ".553896585Z"
+        assert format_created(ts) == "3h ago"
+
+    def test_nanosecond_uptime(self):
+        ts = (datetime.now(timezone.utc) - timedelta(days=2, minutes=1)).strftime(
+            "%Y-%m-%dT%H:%M:%S") + ".123456789+00:00"
+        assert format_uptime(ts, "running") == "Up 2d"
+
+
+class TestRealtimeSignals:
+    def test_realtime_signal_range(self):
+        # 165-192 are real-time signals 37-64
+        assert describe_exit_code(190) != ""
+
+    def test_exit_128_hint(self):
+        assert describe_exit_code(128) == "invalid exit argument"

@@ -1,8 +1,20 @@
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
 from rich.text import Text
+
+
+def _parse_ts(ts: str) -> datetime:
+    """Parse a Docker timestamp.
+
+    Docker emits nanosecond fractions (e.g. .55389658Z); Python 3.10's
+    fromisoformat only accepts 3- or 6-digit fractions, so truncate.
+    """
+    ts = ts.replace("Z", "+00:00")
+    ts = re.sub(r"\.(\d{1,6})\d*", lambda m: "." + m.group(1), ts)
+    return datetime.fromisoformat(ts)
 
 
 def format_size(size_bytes: int | None) -> str:
@@ -25,7 +37,7 @@ def format_created(created: str) -> str:
     if not created:
         return ""
     try:
-        dt = datetime.fromisoformat(created.replace("Z", "+00:00"))
+        dt = _parse_ts(created)
         delta = datetime.now(timezone.utc) - dt
         total_seconds = max(0, int(delta.total_seconds()))
         if total_seconds < 60:
@@ -45,7 +57,7 @@ def format_uptime(started_at: str | None, status: str) -> str:
         return status.capitalize()
 
     try:
-        start = datetime.fromisoformat(started_at.replace("Z", "+00:00"))
+        start = _parse_ts(started_at)
         delta = datetime.now(timezone.utc) - start
         total_seconds = int(delta.total_seconds())
         if total_seconds < 60:
@@ -66,6 +78,7 @@ _EXIT_CODE_HINTS = {
     125: "docker: container failed to run",
     126: "command found but not executable",
     127: "command not found",
+    128: "invalid exit argument",
     255: "exit status out of range",
 }
 
@@ -84,7 +97,7 @@ def describe_exit_code(code: int, oom_killed: bool = False) -> str:
         return "SIGKILL — killed by the OOM killer (out of memory)"
     if code in _EXIT_CODE_HINTS:
         return _EXIT_CODE_HINTS[code]
-    if 128 < code < 165:
+    if 128 < code <= 192:
         signum = code - 128
         try:
             import signal
