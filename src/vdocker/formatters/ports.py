@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from rich.markup import escape
 from rich.table import Table
 from rich.text import Text
 
@@ -39,13 +40,13 @@ class PortsFormatter(BaseFormatter):
             bind_cell = Text(bind, style="dim" if bind == "0.0.0.0" else "yellow")
 
             table.add_row(
-                str(row["host_port"]),
+                escape(str(row["host_port"])),
                 bind_cell,
-                str(row["container_port"]),
-                row["protocol"],
+                escape(str(row["container_port"])),
+                escape(row["protocol"]),
                 container_cell,
-                row["image"],
-                row["network"],
+                escape(row["image"]),
+                escape(row["network"]),
             )
 
         self.console.print(table)

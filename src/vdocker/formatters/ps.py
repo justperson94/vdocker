@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from rich.markup import escape
 from rich.table import Table
 from rich.text import Text
 
@@ -52,16 +53,16 @@ class PsFormatter(BaseFormatter):
                     Text(c.name, style=status_style(c.status)),
                 ]
                 if show_image:
-                    cells.append(c.image_name)
+                    cells.append(escape(c.image_name))
                 if show_command:
                     cmd = c.command.replace("\n", " ").replace("\r", "").strip()
                     if len(cmd) > 18:
                         cmd = cmd[:18] + "\u2026"
-                    cells.append(f'"{cmd}"')
+                    cells.append(escape(f'"{cmd}"'))
                 if show_created:
                     cells.append(format_created(c.created))
                 cells.append(status_text(c.status, c.started_at))
-                cells.append(c.ports or "")
+                cells.append(escape(c.ports or ""))
                 table.add_row(*cells)
 
             self.console.print(table)
