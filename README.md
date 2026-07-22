@@ -134,6 +134,9 @@ echo 'eval "$(_VDOCKER_COMPLETE=zsh_source vdocker)"' >> ~/.zshrc
 ## Notes
 
 - The working directory path shown next to project names (e.g. `[myapp]  /home/user/projects/myapp`) is only available for containers started via `docker compose up`. Standalone containers (`docker run`) do not have this information.
+- Once every 24 hours, vdocker checks GitHub Releases for a newer version and
+  prints the quick-install upgrade command when one is available. Set
+  `VDOCKER_NO_UPDATE_CHECK=1` to disable the check. Network failures are ignored.
 
 ## Uninstall
 

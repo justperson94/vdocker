@@ -9,7 +9,15 @@ console = Console()
 err_console = Console(stderr=True)
 
 
-json_option = click.option("--json", "json_output", is_flag=True, help="Output as JSON")
+def _remember_json_output(ctx, param, value):
+    ctx.meta["json_output"] = value
+    return value
+
+
+json_option = click.option(
+    "--json", "json_output", is_flag=True, help="Output as JSON",
+    callback=_remember_json_output,
+)
 
 
 def common_options(f):
@@ -53,6 +61,15 @@ def get_collector(show_all: bool):
 @click.version_option(package_name="vdocker", prog_name="vdocker")
 def cli():
     """vdocker — Visualize Docker objects and their relationships."""
+
+
+@cli.result_callback()
+@click.pass_context
+def check_for_updates(ctx, result, **kwargs):
+    if ctx.meta.get("json_output"):
+        return
+    from vdocker.update_check import notify_if_update_available
+    notify_if_update_available(err_console)
 
 
 @cli.command()
@@ -200,7 +217,7 @@ def complete_any_container(ctx, param, incomplete):
 @click.argument("container", shell_complete=complete_any_container)
 @click.option("--env", "show_env", is_flag=True,
               help="Show environment variables (sensitive values masked)")
-@click.option("--json", "json_output", is_flag=True, help="Output as JSON")
+@json_option
 def info(container: str, show_env: bool, json_output: bool):
     """Show a one-screen summary of a container.
 
